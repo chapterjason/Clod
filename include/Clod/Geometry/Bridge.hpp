@@ -5,7 +5,7 @@
 
 namespace Clod
 {
-    const float SCALE_TO_PIXEL = 64.f;
+    const float SCALE_TO_PIXEL = 30.f;
     const float SCALE_TO_METER = 1.f / SCALE_TO_PIXEL;
 
     /**
