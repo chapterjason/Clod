@@ -1,4 +1,3 @@
-
 #include <Clod/Geometry/Bridge.hpp>
 
 namespace Clod

@@ -19,9 +19,15 @@ FetchContent_MakeAvailable(Box2D)
 
 add_library(${PROJECT_NAME} STATIC
         include/Clod/Geometry/Position.hpp
-        src/Clod/Geometry/Position.cpp
         include/Clod/Geometry/Bridge.hpp
+        src/Clod/Geometry/Position.cpp
         src/Clod/Geometry/Bridge.cpp
+        include/Clod/Geometry.hpp
+        include/Clod/System/Time.hpp
+        src/Clod/System/Time.cpp
+        include/Clod/System.hpp
+        include/Clod/System/Type.hpp
+        include/Clod/System/Type.inl
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
