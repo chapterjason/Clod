@@ -7,7 +7,7 @@ include(FetchContent)
 
 FetchContent_Declare(SFML
         GIT_REPOSITORY git@github.com:SFML/SFML.git
-        GIT_TAG 2.6.x)
+        GIT_TAG master)
 
 FetchContent_Declare(Box2D
         GIT_REPOSITORY git@github.com:erincatto/box2d.git
@@ -28,6 +28,20 @@ add_library(${PROJECT_NAME} STATIC
         include/Clod/System.hpp
         include/Clod/System/Type.hpp
         include/Clod/System/Type.inl
+        include/Clod/Graphic/ResourceManager.hpp
+        include/Clod/Graphic/ImageResourceManager.hpp
+        src/Clod/Graphic/ImageResourceManager.cpp
+        include/Clod/Graphic/TextureResourceManager.hpp
+        src/Clod/Graphic/TextureResourceManager.cpp
+        include/Clod/Graphic/FontResourceManager.hpp
+        src/Clod/Graphic/FontResourceManager.cpp
+        include/Clod/Graphic.hpp
+        include/Clod/Graphic/MusicResourceManager.hpp
+        src/Clod/Graphic/MusicResourceManager.cpp
+        include/Clod/Graphic/SoundBufferResourceManager.hpp
+        src/Clod/Graphic/SoundBufferResourceManager.cpp
+        include/Clod/Graphic/SoundResourceManager.hpp
+        src/Clod/Graphic/SoundResourceManager.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")

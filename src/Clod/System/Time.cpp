@@ -50,7 +50,7 @@ namespace Clod
 
     sf::Time Time::asSFMLTime() const
     {
-        return sf::microseconds(static_cast<sf::Int64>(this->asMicroseconds()));
+        return sf::microseconds(static_cast<std::int64_t>(this->asMicroseconds()));
     }
 
     Time Time::operator-(const Time &time) const
