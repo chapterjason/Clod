@@ -31,5 +31,7 @@ namespace Clod
      */
     int orientation(const sf::Vector2f &pointA, const sf::Vector2f &pointB, const sf::Vector2f &pointC);
 
+    sf::Angle angle(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
+
     sf::Vector2f centroid(const std::vector<sf::Vector2f> &points);
 }
