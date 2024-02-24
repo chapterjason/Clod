@@ -33,5 +33,10 @@ namespace Clod
 
     sf::Angle angle(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
 
+    /**
+     * Calculates the disruption caused by inserting point P between edge A->B.
+     */
+    float disruption(const sf::Vector2f &A, const sf::Vector2f &B, const sf::Vector2f &P);
+
     sf::Vector2f centroid(const std::vector<sf::Vector2f> &points);
 }

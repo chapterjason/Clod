@@ -39,6 +39,15 @@ namespace Clod
         return sf::degrees(atan2f(pointB.y - pointA.y, pointB.x - pointA.x));
     }
 
+    float disruption(const sf::Vector2f &A, const sf::Vector2f &B, const sf::Vector2f &P)
+    {
+        const auto dAB = distance(A, B);
+        const auto dAP = distance(A, P);
+        const auto dPB = distance(P, B);
+
+        return dAP + dPB - dAB;
+    }
+
     sf::Vector2f centroid(const std::vector<sf::Vector2f> &points)
     {
         float x = 0;
