@@ -36,7 +36,7 @@ namespace Clod
 
     sf::Angle angle(const sf::Vector2f &pointA, const sf::Vector2f &pointB)
     {
-        return sf::radians(atan2f(pointB.y - pointA.y, pointB.x - pointA.x));
+        return sf::degrees(atan2f(pointB.y - pointA.y, pointB.x - pointA.x));
     }
 
     sf::Vector2f centroid(const std::vector<sf::Vector2f> &points)
