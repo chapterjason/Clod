@@ -50,6 +50,8 @@ add_library(${PROJECT_NAME} STATIC
         include/Clod/Algorithm.hpp
         include/Clod/Algorithm/JarvisMarch.hpp
         src/Clod/Algorithm/JarvisMarch.cpp
+        include/Clod/Geometry/Hull.hpp
+        src/Clod/Geometry/Hull.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
