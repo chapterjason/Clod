@@ -34,7 +34,7 @@ namespace Clod
 
             void removePoint(const sf::Vector2f &point);
 
-            void simplify(float tolerance = 2.f, float clusterTolerance = 2.f);
+            void simplify(float tolerance = 2.f, float clusterTolerance = 5.f);
 
             void triangulate();
 

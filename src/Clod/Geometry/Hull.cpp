@@ -167,6 +167,8 @@ namespace Clod
     Hull::Hull(const std::shared_ptr<sf::Image> &image)
     {
         this->points = detectEdges(image);
+
+        this->sortPoints();
     }
 
     Hull::Hull(const std::vector<sf::Vector2f> &points)
