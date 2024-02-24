@@ -1,5 +1,4 @@
-
-#include <Clod/Graphic/ImageResourceManager.hpp>
+#include <Clod/Core/ImageResourceManager.hpp>
 
 namespace Clod
 {

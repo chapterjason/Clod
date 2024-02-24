@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include <Clod/Graphic/ResourceManager.hpp>
+#include <Clod/Core/ResourceManager.hpp>
 
 namespace Clod
 {

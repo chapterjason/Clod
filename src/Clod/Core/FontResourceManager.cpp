@@ -1,4 +1,4 @@
-#include <Clod/Graphic/FontResourceManager.hpp>
+#include <Clod/Core/FontResourceManager.hpp>
 
 namespace Clod
 {

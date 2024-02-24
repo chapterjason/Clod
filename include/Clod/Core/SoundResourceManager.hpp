@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Clod/Graphic/ResourceManager.hpp>
-#include <Clod/Graphic/SoundBufferResourceManager.hpp>
+#include <Clod/Core/ResourceManager.hpp>
+#include <Clod/Core/SoundBufferResourceManager.hpp>
 #include <SFML/Audio.hpp>
 
 namespace Clod

@@ -30,4 +30,4 @@ namespace Clod
     };
 }
 
-#include <Clod/Graphic/ResourceManager.inl>
+#include <Clod/Core/ResourceManager.inl>

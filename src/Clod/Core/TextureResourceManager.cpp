@@ -1,5 +1,4 @@
-
-#include <Clod/Graphic/TextureResourceManager.hpp>
+#include <Clod/Core/TextureResourceManager.hpp>
 
 namespace Clod
 {

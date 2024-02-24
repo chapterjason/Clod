@@ -28,20 +28,28 @@ add_library(${PROJECT_NAME} STATIC
         include/Clod/System.hpp
         include/Clod/System/Type.hpp
         include/Clod/System/Type.inl
-        include/Clod/Graphic/ResourceManager.hpp
-        include/Clod/Graphic/ImageResourceManager.hpp
-        src/Clod/Graphic/ImageResourceManager.cpp
-        include/Clod/Graphic/TextureResourceManager.hpp
-        src/Clod/Graphic/TextureResourceManager.cpp
-        include/Clod/Graphic/FontResourceManager.hpp
-        src/Clod/Graphic/FontResourceManager.cpp
+        include/Clod/Core/ResourceManager.hpp
+        include/Clod/Core/ImageResourceManager.hpp
+        src/Clod/Core/ImageResourceManager.cpp
+        include/Clod/Core/TextureResourceManager.hpp
+        src/Clod/Core/TextureResourceManager.cpp
+        include/Clod/Core/FontResourceManager.hpp
+        src/Clod/Core/FontResourceManager.cpp
         include/Clod/Graphic.hpp
-        include/Clod/Graphic/MusicResourceManager.hpp
-        src/Clod/Graphic/MusicResourceManager.cpp
-        include/Clod/Graphic/SoundBufferResourceManager.hpp
-        src/Clod/Graphic/SoundBufferResourceManager.cpp
-        include/Clod/Graphic/SoundResourceManager.hpp
-        src/Clod/Graphic/SoundResourceManager.cpp
+        include/Clod/Core/MusicResourceManager.hpp
+        src/Clod/Core/MusicResourceManager.cpp
+        include/Clod/Core/SoundBufferResourceManager.hpp
+        src/Clod/Core/SoundBufferResourceManager.cpp
+        include/Clod/Core/SoundResourceManager.hpp
+        src/Clod/Core/SoundResourceManager.cpp
+        include/Clod/Graphic/Image.hpp
+        src/Clod/Graphic/Image.cpp
+        include/Clod/Core.hpp
+        include/Clod/Algorithm/RamerDouglasPeucker.hpp
+        src/Clod/Algorithm/RamerDouglasPeucker.cpp
+        include/Clod/Algorithm.hpp
+        include/Clod/Algorithm/JarvisMarch.hpp
+        src/Clod/Algorithm/JarvisMarch.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")

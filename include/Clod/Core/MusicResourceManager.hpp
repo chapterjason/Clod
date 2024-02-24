@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Clod/Graphic/ResourceManager.hpp>
+#include <Clod/Core/ResourceManager.hpp>
 #include <SFML/Audio.hpp>
 
 // @todo: No fitting module name for music?

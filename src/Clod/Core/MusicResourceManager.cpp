@@ -1,4 +1,4 @@
-#include <Clod/Graphic/MusicResourceManager.hpp>
+#include <Clod/Core/MusicResourceManager.hpp>
 
 namespace Clod
 {
