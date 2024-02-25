@@ -36,7 +36,7 @@ namespace Clod
 
     sf::Angle angle(const sf::Vector2f &pointA, const sf::Vector2f &pointB)
     {
-        return sf::degrees(atan2f(pointB.y - pointA.y, pointB.x - pointA.x));
+        return sf::radians(atan2f(pointB.y - pointA.y, pointB.x - pointA.x));
     }
 
     float disruption(const sf::Vector2f &A, const sf::Vector2f &B, const sf::Vector2f &P)
