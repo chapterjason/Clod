@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <stdexcept>
 
 #include <Clod/Core/ResourceManager.hpp>
@@ -12,8 +13,26 @@ namespace Clod
     template<typename T>
     ResourceManager<T>::ResourceManager()
     {
+        this->fileNames = std::map<std::string, std::string>();
         this->resources = std::map<std::string, std::shared_ptr<T> >();
-        this->categories = std::map<std::string, std::vector<std::string> >();
+    }
+
+    template<typename T>
+    void ResourceManager<T>::addMapping(const std::string &name, const std::string &fileName)
+    {
+        this->fileNames[name] = fileName;
+    }
+
+    template<typename T>
+    bool ResourceManager<T>::hasMapping(const std::string &name)
+    {
+        return fileNames.find(name) != fileNames.end();
+    }
+
+    template<typename T>
+    std::string ResourceManager<T>::getMapping(const std::string &name)
+    {
+        return fileNames[name];
     }
 
     template<typename T>
@@ -27,10 +46,40 @@ namespace Clod
     {
         if (!this->has(name))
         {
+            if (this->hasMapping(name))
+            {
+                const auto fileName = this->getMapping(name);
+
+                return this->load(name, fileName);
+            }
+
             throw std::runtime_error("Resource not found: " + name);
         }
 
         return resources[name];
+    }
+
+    template<typename T>
+    std::vector<std::string> ResourceManager<T>::getNames()
+    {
+        std::vector<std::string> names;
+
+        for (const auto &pair : fileNames)
+        {
+            names.push_back(pair.first);
+        }
+
+        for (const auto &pair : resources)
+        {
+            names.push_back(pair.first);
+        }
+
+        std::sort(names.begin(), names.end());
+
+        names.erase(std::unique(names.begin(), names.end()), names.end());
+
+        return names;
+
     }
 
     template<typename T>
@@ -45,21 +94,8 @@ namespace Clod
     }
 
     template<typename T>
-    void ResourceManager<T>::clear(const std::string &category)
+    void ResourceManager<T>::remove(const std::string &name)
     {
-        if (category.empty())
-        {
-            resources.clear();
-            categories.clear();
-        }
-        else
-        {
-            for (auto &name: categories[category])
-            {
-                resources.erase(name);
-            }
-
-            categories.erase(category);
-        }
+        this->resources.erase(name);
     }
 }

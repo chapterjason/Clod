@@ -3,8 +3,6 @@
 #include <Clod/Core/ResourceManager.hpp>
 #include <SFML/Audio.hpp>
 
-// @todo: No fitting module name for music?
-
 namespace Clod
 {
     class MusicResourceManager : public ResourceManager<sf::Music>
