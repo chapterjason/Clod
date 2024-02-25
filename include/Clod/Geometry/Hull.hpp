@@ -36,7 +36,7 @@ namespace Clod
 
             void simplify(float tolerance = 2.f, float clusterTolerance = 5.f);
 
-            void triangulate();
+            std::vector<std::vector<sf::Vector2f> > triangulate();
 
             [[nodiscard]] const std::vector<sf::Vector2f> &getPoints() const;
     };

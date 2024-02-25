@@ -13,6 +13,14 @@ FetchContent_Declare(Box2D
         GIT_REPOSITORY git@github.com:erincatto/box2d.git
         GIT_TAG v2.4.1)
 
+FetchContent_Declare(CDT
+        GIT_REPOSITORY git@github.com:artem-ogre/CDT.git
+        GIT_TAG master)
+
+FetchContent_MakeAvailable(CDT)
+set(CDT_USE_AS_COMPILED_LIBRARY true)
+add_subdirectory(${cdt_SOURCE_DIR}/CDT ${cdt_BINARY_DIR})
+
 set(BUILD_SHARED_LIBS false)
 FetchContent_MakeAvailable(SFML)
 FetchContent_MakeAvailable(Box2D)
@@ -55,7 +63,7 @@ add_library(${PROJECT_NAME} STATIC
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio sfml-system sfml-window sfml-network box2d)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio sfml-system sfml-window sfml-network box2d CDT)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 source_group(

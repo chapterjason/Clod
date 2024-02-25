@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <Clod/Geometry/Hull.hpp>
 #include <Clod/Geometry/Position.hpp>
+#include <CDT.h>
 
 #include "Clod/Algorithm/JarvisMarch.hpp"
 #include "Clod/Graphic/Image.hpp"
@@ -212,7 +213,48 @@ namespace Clod
         this->points = this->simplifyCluster(clusterTolerance);
     }
 
-    void Hull::triangulate() {}
+    std::vector<std::vector<sf::Vector2f> > Hull::triangulate()
+    {
+        CDT::Triangulation<float> cdt;
+
+        std::vector<CDT::V2d<float> > cdtPoints;
+        std::vector<CDT::Edge> edges;
+
+        auto index = 0;
+        for (const auto &point: points)
+        {
+            cdtPoints.push_back({point.x, point.y});
+
+            CDT::Edge edge(index, (index + 1) % points.size());
+
+            edges.push_back(edge);
+
+            index++;
+        }
+
+        cdt.insertVertices(cdtPoints);
+        cdt.insertEdges(edges);
+        cdt.eraseOuterTriangles();
+
+        auto cdtTriangles = cdt.triangles;
+        auto triangles = std::vector<std::vector<sf::Vector2f> >();
+
+        for (const auto &cdtTriangle: cdt.triangles)
+        {
+            auto a = cdt.vertices[cdtTriangle.vertices[0]];
+            auto b = cdt.vertices[cdtTriangle.vertices[1]];
+            auto c = cdt.vertices[cdtTriangle.vertices[2]];
+            auto triangle = std::vector<sf::Vector2f>();
+
+            triangle.emplace_back(a.x, a.y);
+            triangle.emplace_back(b.x, b.y);
+            triangle.emplace_back(c.x, c.y);
+
+            triangles.push_back(triangle);
+        }
+
+        return triangles;
+    }
 
     const std::vector<sf::Vector2f> &Hull::getPoints() const
     {
