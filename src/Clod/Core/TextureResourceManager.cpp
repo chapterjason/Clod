@@ -26,7 +26,7 @@ namespace Clod
 
         auto texture = std::make_shared<sf::Texture>();
 
-        if(!texture->loadFromImage(*image))
+        if (!texture->loadFromImage(*image))
         {
             throw std::runtime_error("Failed to load texture: " + name + " from image");
         }
@@ -36,8 +36,10 @@ namespace Clod
         return texture;
     }
 
-    std::shared_ptr<sf::Texture> TextureResourceManager::subTexture(const std::string &name, const std::string &reference,
-                                                                    const sf::IntRect &crop)
+    std::shared_ptr<sf::Texture> TextureResourceManager::subTexture(const std::string &name,
+                                                                    const std::string &reference,
+                                                                    const sf::IntRect &crop
+    )
     {
         if (this->has(name))
         {
@@ -48,10 +50,10 @@ namespace Clod
 
         auto subTexture = std::make_shared<sf::Texture>();
 
-         if(!subTexture->loadFromImage(texture->copyToImage(), crop))
-         {
-             throw std::runtime_error("Failed to create subtexture: " + name);
-         }
+        if (!subTexture->loadFromImage(texture->copyToImage(), crop))
+        {
+            throw std::runtime_error("Failed to create subtexture: " + name);
+        }
 
         this->set(name, subTexture);
 

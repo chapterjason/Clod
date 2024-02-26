@@ -42,7 +42,9 @@ add_library(${PROJECT_NAME} STATIC
         include/Clod/Core/TextureResourceManager.hpp
         src/Clod/Core/TextureResourceManager.cpp
         include/Clod/Core/FontResourceManager.hpp
+        include/Clod/Core/SpriteResourceManager.hpp
         src/Clod/Core/FontResourceManager.cpp
+        src/Clod/Core/SpriteResourceManager.cpp
         include/Clod/Graphic.hpp
         include/Clod/Core/MusicResourceManager.hpp
         src/Clod/Core/MusicResourceManager.cpp
