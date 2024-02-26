@@ -7,3 +7,4 @@
 #include <Clod/Core/SoundBufferResourceManager.hpp>
 #include <Clod/Core/SoundResourceManager.hpp>
 #include <Clod/Core/MusicResourceManager.hpp>
+#include <Clod/Core/SpriteResourceManager.hpp>
