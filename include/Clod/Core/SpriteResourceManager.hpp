@@ -14,6 +14,6 @@ namespace Clod
         public:
             explicit SpriteResourceManager(const std::shared_ptr<TextureResourceManager> &textureManager);
 
-            std::shared_ptr<sf::Sprite> load(const std::string &name, const std::string &fileName) override;
+            std::shared_ptr<sf::Sprite> load(const std::string &name, const std::filesystem::path &filePath) override;
     };
 }

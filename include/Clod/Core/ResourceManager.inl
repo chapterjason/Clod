@@ -13,32 +13,32 @@ namespace Clod
     template<typename T>
     ResourceManager<T>::ResourceManager()
     {
-        this->fileNames = std::map<std::string, std::string>();
-        this->resources = std::map<std::string, std::shared_ptr<T> >();
+        this->fileMapping = std::map<std::string, std::filesystem::path>();
+        this->resources = std::map<std::string, std::shared_ptr<T>>();
     }
 
     template<typename T>
-    void ResourceManager<T>::addMapping(const std::string &name, const std::string &fileName)
+    void ResourceManager<T>::setMapping(const std::string &name, const std::filesystem::path &filePath)
     {
-        this->fileNames[name] = fileName;
+        this->fileMapping[name] = filePath;
     }
 
     template<typename T>
     bool ResourceManager<T>::hasMapping(const std::string &name)
     {
-        return fileNames.find(name) != fileNames.end();
+        return fileMapping.find(name) != fileMapping.end();
     }
 
     template<typename T>
-    std::string ResourceManager<T>::getMapping(const std::string &name)
+    std::filesystem::path ResourceManager<T>::getFileName(const std::string &name)
     {
-        return fileNames[name];
+        return fileMapping[name];
     }
 
     template<typename T>
     bool ResourceManager<T>::has(const std::string &name)
     {
-        return resources.find(name) != resources.end();
+        return this->resources.find(name) != this->resources.end();
     }
 
     template<typename T>
@@ -48,7 +48,7 @@ namespace Clod
         {
             if (this->hasMapping(name))
             {
-                const auto fileName = this->getMapping(name);
+                const auto fileName = this->getFileName(name);
 
                 return this->load(name, fileName);
             }
@@ -64,12 +64,12 @@ namespace Clod
     {
         std::vector<std::string> names;
 
-        for (const auto &pair : fileNames)
+        for (const auto &pair: fileMapping)
         {
             names.push_back(pair.first);
         }
 
-        for (const auto &pair : resources)
+        for (const auto &pair: resources)
         {
             names.push_back(pair.first);
         }
@@ -79,7 +79,6 @@ namespace Clod
         names.erase(std::unique(names.begin(), names.end()), names.end());
 
         return names;
-
     }
 
     template<typename T>

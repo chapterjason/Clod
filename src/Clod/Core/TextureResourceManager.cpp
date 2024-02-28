@@ -2,15 +2,16 @@
 
 namespace Clod
 {
-    std::shared_ptr<sf::Texture> TextureResourceManager::load(const std::string &name, const std::string &fileName)
+    std::shared_ptr<sf::Texture> TextureResourceManager::load(const std::string &name, const std::filesystem::path &filePath)
     {
         auto texture = std::make_shared<sf::Texture>();
 
-        if (!texture->loadFromFile(fileName))
+        if (!texture->loadFromFile(filePath))
         {
-            throw std::runtime_error("Failed to load texture: " + name + " from file: " + fileName);
+            throw std::runtime_error("Failed to load texture: " + name + " from file: " + filePath.string());
         }
 
+        this->setMapping(name, filePath);
         this->set(name, texture);
 
         return texture;

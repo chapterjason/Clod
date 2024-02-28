@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <map>
 #include <memory>
 #include <string>
@@ -10,19 +11,19 @@ namespace Clod
     template<typename T>
     class ResourceManager
     {
-        std::map<std::string, std::string> fileNames;
-        std::map<std::string, std::shared_ptr<T> > resources;
+        std::map<std::string, std::filesystem::path> fileMapping;
+        std::map<std::string, std::shared_ptr<T>> resources;
 
         public:
             virtual ~ResourceManager();
 
             ResourceManager();
 
-            void addMapping(const std::string &name, const std::string &fileName);
+            void setMapping(const std::string &name, const std::filesystem::path &filePath);
 
             bool hasMapping(const std::string &name);
 
-            std::string getMapping(const std::string &name);
+            std::filesystem::path getFileName(const std::string &name);
 
             bool has(const std::string &name);
 
@@ -34,7 +35,7 @@ namespace Clod
 
             void remove(const std::string &name);
 
-            virtual std::shared_ptr<T> load(const std::string &name, const std::string &fileName) = 0;
+            virtual std::shared_ptr<T> load(const std::string &name, const std::filesystem::path &filePath) = 0;
     };
 }
 

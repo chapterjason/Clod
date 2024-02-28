@@ -14,6 +14,6 @@ namespace Clod
         public:
             explicit SoundResourceManager(const std::shared_ptr<SoundBufferResourceManager> &soundBufferManager);
 
-            std::shared_ptr<sf::Sound> load(const std::string &name, const std::string &fileName) override;
+            std::shared_ptr<sf::Sound> load(const std::string &name, const std::filesystem::path &filePath) override;
     };
 }

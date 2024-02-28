@@ -8,7 +8,7 @@ namespace Clod
     class ImageResourceManager : public ResourceManager<sf::Image>
     {
         public:
-        std::shared_ptr<sf::Image> load(const std::string &name, const std::string &fileName) override;
+        std::shared_ptr<sf::Image> load(const std::string &name, const std::filesystem::path &filePath) override;
     };
 
 }
