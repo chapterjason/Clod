@@ -191,6 +191,7 @@ namespace Clod
             this->polygons.clear();
             this->edges.clear();
             this->outerEdges.clear();
+            this->innerEdges.clear();
 
             return true;
         }
@@ -207,6 +208,7 @@ namespace Clod
         this->polygons.clear();
         this->edges.clear();
         this->outerEdges.clear();
+        this->innerEdges.clear();
     }
 
     void Hull::simplify(
@@ -224,11 +226,12 @@ namespace Clod
         this->polygons.clear();
         this->edges.clear();
         this->outerEdges.clear();
+        this->innerEdges.clear();
     }
 
     std::vector<Edge> Hull::getOuterEdges()
     {
-        if(this->outerEdges.empty())
+        if (this->outerEdges.empty())
         {
             const auto edges = this->getEdges();
 
@@ -248,6 +251,31 @@ namespace Clod
         }
 
         return this->outerEdges;
+    }
+
+    std::vector<Edge> Hull::getInnerEdges()
+    {
+        if (this->innerEdges.empty())
+        {
+            for (const auto &polygon: polygons)
+            {
+                const auto polygonEdges = polygon.edges();
+                const auto outerEdges = this->getOuterEdges();
+
+                for (const auto &polygonEdge: polygonEdges)
+                {
+                    const auto duplicate = polygonEdge.isInsideVector(edges);
+                    const auto isOutside = polygonEdge.isInsideVector(outerEdges);
+
+                    if (!duplicate && !isOutside)
+                    {
+                        this->innerEdges.push_back(polygonEdge);
+                    }
+                }
+            }
+        }
+
+        return this->innerEdges;
     }
 
     std::vector<Edge> Hull::getEdges()
@@ -322,5 +350,33 @@ namespace Clod
     const std::vector<sf::Vector2f> &Hull::getPoints() const
     {
         return this->points;
+    }
+
+    std::vector<Edge> Hull::getEdges(const sf::Vector2f &point)
+    {
+        auto edges = std::vector<Edge>();
+
+        for (const auto &edge: this->getEdges())
+        {
+            if (edge.contains(point))
+            {
+                edges.push_back(edge);
+            }
+        }
+
+        return edges;
+    }
+
+    std::vector<Edge> Hull::getSiblingEdges(const Edge &edge, const sf::Vector2f &point)
+    {
+        auto edges = this->getEdges(point);
+        const auto it = std::find(edges.begin(), edges.end(), edge);
+
+        if (it != edges.end())
+        {
+            edges.erase(it);
+        }
+
+        return edges;
     }
 }

@@ -28,6 +28,7 @@ namespace Clod
             std::vector<Polygon> polygons;
             std::vector<Edge> edges;
             std::vector<Edge> outerEdges;
+            std::vector<Edge> innerEdges;
 
             [[nodiscard]] int findBestEdgeForInsertion(const sf::Vector2f &pointToInsert) const;
 
@@ -44,6 +45,8 @@ namespace Clod
 
             [[nodiscard]] std::vector<Edge> getOuterEdges();
 
+            [[nodiscard]] std::vector<Edge> getInnerEdges();
+
             [[nodiscard]] std::vector<Edge> getEdges();
 
             [[nodiscard]] int getPointIndex(const sf::Vector2f &point) const;
@@ -51,5 +54,9 @@ namespace Clod
             std::vector<Polygon> getPolygons();
 
             [[nodiscard]] const std::vector<sf::Vector2f> &getPoints() const;
+
+            std::vector<Edge> getEdges(const sf::Vector2f &point);
+
+            std::vector<Edge> getSiblingEdges(const Edge &edge, const sf::Vector2f &point);
     };
 }

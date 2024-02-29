@@ -14,6 +14,12 @@ namespace Clod
 
         bool operator==(const Edge &other) const;
 
+        [[nodiscard]] bool contains(const sf::Vector2f &point) const;
+
         [[nodiscard]] bool isInsideVector(const std::vector<Edge> &edges) const;
+
+        [[nodiscard]] float length() const;
+
+        [[nodiscard]] sf::Angle angle() const;
     };
 }
