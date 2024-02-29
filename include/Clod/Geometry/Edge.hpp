@@ -21,5 +21,7 @@ namespace Clod
         [[nodiscard]] float length() const;
 
         [[nodiscard]] sf::Angle angle() const;
+
+        [[nodiscard]] sf::Vector2f midpoint() const;
     };
 }
