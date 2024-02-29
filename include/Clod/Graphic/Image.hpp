@@ -5,5 +5,5 @@
 
 namespace Clod
 {
-    std::vector<sf::Vector2f> detectEdges(const std::shared_ptr<sf::Image> &image);
+    std::vector<sf::Vector2f> detectEdges(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance = 5);
 }

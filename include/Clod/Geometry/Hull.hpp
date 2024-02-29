@@ -26,7 +26,7 @@ namespace Clod
             [[nodiscard]] int findBestEdgeForInsertion(const sf::Vector2f &pointToInsert) const;
 
         public:
-            explicit Hull(const std::shared_ptr<sf::Image> &image);
+            explicit Hull(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance = 5);
 
             explicit Hull(const std::vector<sf::Vector2f> &points);
 

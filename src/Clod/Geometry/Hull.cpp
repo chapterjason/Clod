@@ -165,9 +165,9 @@ namespace Clod
         return bestEdgeIndex;
     }
 
-    Hull::Hull(const std::shared_ptr<sf::Image> &image)
+    Hull::Hull(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance)
     {
-        this->points = detectEdges(image);
+        this->points = detectEdges(image, alphaTolerance);
 
         this->sortPoints();
     }

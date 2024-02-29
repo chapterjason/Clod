@@ -18,7 +18,7 @@ namespace Clod
         }
     }
 
-    std::vector<sf::Vector2f> detectEdges(const std::shared_ptr<sf::Image> &image)
+    std::vector<sf::Vector2f> detectEdges(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance)
     {
         auto points = std::vector<sf::Vector2f>{};
 
@@ -35,12 +35,12 @@ namespace Clod
             {
                 const auto pixel = image->getPixel(sf::Vector2u(x, y));
 
-                if (!inside && pixel != sf::Color::Transparent)
+                if (!inside && pixel.a > alphaTolerance)
                 {
                     Internal::addPoint(points, x, y);
                     inside = true;
                 }
-                else if (inside && pixel != sf::Color::Transparent)
+                else if (inside && pixel.a > alphaTolerance)
                 {
                     // Look ahead for transparency
                     auto restTransparent = true;
@@ -49,7 +49,7 @@ namespace Clod
                     {
                         auto npx = image->getPixel(sf::Vector2u(nx, y));
 
-                        if (npx != sf::Color::Transparent)
+                        if (npx.a > alphaTolerance)
                         {
                             restTransparent = false;
                             break;
@@ -75,12 +75,12 @@ namespace Clod
             {
                 const auto pixel = image->getPixel(sf::Vector2u(x, y));
 
-                if (!inside && pixel != sf::Color::Transparent)
+                if (!inside && pixel.a > alphaTolerance)
                 {
                     Internal::addPoint(points, x, y);
                     inside = true;
                 }
-                else if (inside && pixel != sf::Color::Transparent)
+                else if (inside && pixel.a > alphaTolerance)
                 {
                     // Look ahead for transparency
                     auto restTransparent = true;
@@ -89,7 +89,7 @@ namespace Clod
                     {
                         auto npy = image->getPixel(sf::Vector2u(x, ny));
 
-                        if (npy != sf::Color::Transparent)
+                        if (npy.a > alphaTolerance)
                         {
                             restTransparent = false;
                             break;
