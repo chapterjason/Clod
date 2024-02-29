@@ -13,6 +13,8 @@ namespace Clod
 
         explicit Polygon(const std::vector<sf::Vector2f> &vertices);
 
+        bool operator==(const Polygon &other) const;
+
         [[nodiscard]] std::vector<Edge> getEdges() const;
 
         [[nodiscard]] bool contains(const Edge &other) const;
