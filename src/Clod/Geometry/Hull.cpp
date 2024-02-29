@@ -340,7 +340,11 @@ namespace Clod
                 auto b = cdt.vertices[cdtTriangle.vertices[1]];
                 auto c = cdt.vertices[cdtTriangle.vertices[2]];
 
-                this->polygons.push_back(Polygon({a, b, c}));
+                this->polygons.push_back(Polygon({
+                    {a.x, a.y},
+                    {b.x, b.y},
+                    {c.x, c.y}
+                }));
             }
         }
 
