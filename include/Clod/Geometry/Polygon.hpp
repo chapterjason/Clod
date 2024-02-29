@@ -2,8 +2,8 @@
 
 #include <vector>
 #include <SFML/System.hpp>
+#include <CDT.h>
 
-#include "CDT.h"
 #include "Edge.hpp"
 
 namespace Clod
