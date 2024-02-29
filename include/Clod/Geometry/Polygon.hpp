@@ -3,7 +3,7 @@
 #include <vector>
 #include <SFML/System.hpp>
 
-#include "CDTUtils.h"
+#include "CDT.h"
 #include "Edge.hpp"
 
 namespace Clod
