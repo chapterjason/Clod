@@ -233,9 +233,7 @@ namespace Clod
     {
         if (this->outerEdges.empty())
         {
-            const auto edges = this->getEdges();
-
-            for (const auto &edge: edges)
+            for (const auto &edge: this->getEdges())
             {
                 const auto aIndex = this->getPointIndex(edge.a);
                 const auto bIndex = this->getPointIndex(edge.b);
@@ -257,12 +255,11 @@ namespace Clod
     {
         if (this->innerEdges.empty())
         {
-            for (const auto &polygon: polygons)
-            {
-                const auto polygonEdges = polygon.getEdges();
-                const auto outerEdges = this->getOuterEdges();
+            const auto outerEdges = this->getOuterEdges();
 
-                for (const auto &polygonEdge: polygonEdges)
+            for (const auto &polygon: this->getPolygons())
+            {
+                for (const auto &polygonEdge: polygon.getEdges())
                 {
                     const auto duplicate = polygonEdge.isInsideVector(edges);
                     const auto isOutside = polygonEdge.isInsideVector(outerEdges);
@@ -282,9 +279,7 @@ namespace Clod
     {
         if (this->edges.empty())
         {
-            const auto polygons = this->getPolygons();
-
-            for (const auto &polygon: polygons)
+            for (const auto &polygon: this->getPolygons())
             {
                 const auto polygonEdges = polygon.getEdges();
 
