@@ -261,7 +261,7 @@ namespace Clod
             {
                 for (const auto &polygonEdge: polygon.getEdges())
                 {
-                    const auto duplicate = polygonEdge.isInsideVector(edges);
+                    const auto duplicate = polygonEdge.isInsideVector(this->innerEdges);
                     const auto isOutside = polygonEdge.isInsideVector(outerEdges);
 
                     if (!duplicate && !isOutside)
