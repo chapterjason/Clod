@@ -59,11 +59,11 @@ namespace Clod
 
     std::string Polygon::toString() const
     {
-        auto result = std::string("Polygon: {");
+        auto result = std::string("Polygon: {\n");
 
         for (const auto &edge: this->getEdges())
         {
-            result += "  " + edge.toString() + ", ";
+            result += "  " + edge.toString() + ",\n";
         }
 
         result += "}";
