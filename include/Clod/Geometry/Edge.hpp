@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <vector>
 #include <SFML/System.hpp>
 
@@ -20,7 +21,9 @@ namespace Clod
 
         [[nodiscard]] float length() const;
 
-        [[nodiscard]] sf::Angle angle() const;
+        [[nodiscard]] sf::Angle direction() const;
+
+        [[nodiscard]] std::optional<sf::Angle> angle(const Edge &other) const;
 
         [[nodiscard]] sf::Vector2f midpoint() const;
     };

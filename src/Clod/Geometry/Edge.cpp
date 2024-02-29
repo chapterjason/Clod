@@ -28,9 +28,35 @@ namespace Clod
         return distance(this->a, this->b);
     }
 
-    sf::Angle Edge::angle() const
+    sf::Angle Edge::direction() const
     {
         return Clod::angle(this->a, this->b);
+    }
+
+    std::optional<sf::Angle> Edge::angle(const Edge &other) const
+    {
+        // determine the matching point
+        sf::Vector2f a, b, p;
+
+        if (this->a == other.a || this->a == other.b)
+        {
+            p = this->a;
+            a = this->b;
+            b = other.b;
+        }
+        else if (this->b == other.a || this->b == other.b)
+        {
+            p = this->b;
+            a = this->a;
+            b = other.a;
+        }
+        else
+        {
+            return std::nullopt;
+        }
+
+        // calculate the angle
+        return Clod::angle(p, a) - Clod::angle(p, b);
     }
 
     sf::Vector2f Edge::midpoint() const
