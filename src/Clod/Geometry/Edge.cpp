@@ -63,4 +63,9 @@ namespace Clod
     {
         return (this->a + this->b) / 2.f;
     }
+
+    std::string Edge::toString() const
+    {
+        return "Edge(" + std::to_string(this->a.x) + ", " + std::to_string(this->a.y) + ") -> (" + std::to_string(this->b.x) + ", " + std::to_string(this->b.y) + ")";
+    }
 }

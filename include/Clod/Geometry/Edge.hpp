@@ -26,5 +26,7 @@ namespace Clod
         [[nodiscard]] std::optional<sf::Angle> angle(const Edge &other) const;
 
         [[nodiscard]] sf::Vector2f midpoint() const;
+
+        [[nodiscard]] std::string toString() const;
     };
 }

@@ -18,5 +18,7 @@ namespace Clod
         [[nodiscard]] std::vector<Edge> getEdges() const;
 
         [[nodiscard]] bool contains(const Edge &other) const;
+
+        [[nodiscard]] std::string toString() const;
     };
 }

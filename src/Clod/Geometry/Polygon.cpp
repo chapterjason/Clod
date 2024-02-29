@@ -56,4 +56,18 @@ namespace Clod
             return edge == other;
         });
     }
+
+    std::string Polygon::toString() const
+    {
+        auto result = std::string("Polygon: {");
+
+        for (const auto &edge: this->getEdges())
+        {
+            result += "  " + edge.toString() + ", ";
+        }
+
+        result += "}";
+
+        return result;
+    }
 }
