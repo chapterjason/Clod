@@ -4,6 +4,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Edge.hpp"
+#include "Polygon.hpp"
+
 namespace Clod
 {
     class Hull
@@ -22,6 +25,9 @@ namespace Clod
 
         protected:
             std::vector<sf::Vector2f> points;
+            std::vector<Polygon> polygons;
+            std::vector<Edge> edges;
+            std::vector<Edge> outerEdges;
 
             [[nodiscard]] int findBestEdgeForInsertion(const sf::Vector2f &pointToInsert) const;
 
@@ -36,7 +42,13 @@ namespace Clod
 
             void simplify(float tolerance = 2.f, float clusterTolerance = 5.f);
 
-            std::vector<std::vector<sf::Vector2f> > triangulate();
+            [[nodiscard]] std::vector<Edge> getOuterEdges();
+
+            [[nodiscard]] std::vector<Edge> getEdges();
+
+            [[nodiscard]] int getPointIndex(const sf::Vector2f &point) const;
+
+            std::vector<Polygon> getPolygons();
 
             [[nodiscard]] const std::vector<sf::Vector2f> &getPoints() const;
     };

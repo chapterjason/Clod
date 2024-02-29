@@ -4,6 +4,7 @@
 #include <CDT.h>
 
 #include "Clod/Algorithm/JarvisMarch.hpp"
+#include "Clod/Geometry/Polygon.hpp"
 #include "Clod/Graphic/Image.hpp"
 
 namespace Clod
@@ -74,7 +75,7 @@ namespace Clod
 
     std::vector<sf::Vector2f> Hull::simplifyCluster(const float tolerance) const
     {
-        auto clusters = std::vector<std::vector<sf::Vector2f> >();
+        auto clusters = std::vector<std::vector<sf::Vector2f>>();
         auto centroids = std::vector<sf::Vector2f>();
 
         // Start with the first point in a new cluster
@@ -187,6 +188,10 @@ namespace Clod
         {
             this->points.insert(this->points.begin() + index, point);
 
+            this->polygons.clear();
+            this->edges.clear();
+            this->outerEdges.clear();
+
             return true;
         }
 
@@ -198,6 +203,10 @@ namespace Clod
         const auto index = std::find(this->points.begin(), this->points.end(), point);
 
         this->points.erase(index);
+
+        this->polygons.clear();
+        this->edges.clear();
+        this->outerEdges.clear();
     }
 
     void Hull::simplify(
@@ -211,49 +220,103 @@ namespace Clod
 
         this->points = simplifiedPoints;
         this->points = this->simplifyCluster(clusterTolerance);
+
+        this->polygons.clear();
+        this->edges.clear();
+        this->outerEdges.clear();
     }
 
-    std::vector<std::vector<sf::Vector2f> > Hull::triangulate()
+    std::vector<Edge> Hull::getOuterEdges()
     {
-        CDT::Triangulation<float> cdt;
-
-        std::vector<CDT::V2d<float> > cdtPoints;
-        std::vector<CDT::Edge> edges;
-
-        auto index = 0;
-        for (const auto &point: points)
+        if(this->outerEdges.empty())
         {
-            cdtPoints.push_back({point.x, point.y});
+            const auto edges = this->getEdges();
 
-            CDT::Edge edge(index, (index + 1) % points.size());
+            for (const auto &edge: edges)
+            {
+                const auto aIndex = this->getPointIndex(edge.a);
+                const auto bIndex = this->getPointIndex(edge.b);
 
-            edges.push_back(edge);
-
-            index++;
+                if (aIndex != -1 && bIndex != -1)
+                {
+                    if (aIndex == bIndex + 1 || aIndex == bIndex - 1)
+                    {
+                        this->outerEdges.push_back(edge);
+                    }
+                }
+            }
         }
 
-        cdt.insertVertices(cdtPoints);
-        cdt.insertEdges(edges);
-        cdt.eraseOuterTriangles();
+        return this->outerEdges;
+    }
 
-        auto cdtTriangles = cdt.triangles;
-        auto triangles = std::vector<std::vector<sf::Vector2f> >();
-
-        for (const auto &cdtTriangle: cdt.triangles)
+    std::vector<Edge> Hull::getEdges()
+    {
+        if (this->edges.empty())
         {
-            auto a = cdt.vertices[cdtTriangle.vertices[0]];
-            auto b = cdt.vertices[cdtTriangle.vertices[1]];
-            auto c = cdt.vertices[cdtTriangle.vertices[2]];
-            auto triangle = std::vector<sf::Vector2f>();
+            const auto polygons = this->getPolygons();
 
-            triangle.emplace_back(a.x, a.y);
-            triangle.emplace_back(b.x, b.y);
-            triangle.emplace_back(c.x, c.y);
+            for (const auto &polygon: polygons)
+            {
+                const auto polygonEdges = polygon.edges();
 
-            triangles.push_back(triangle);
+                this->edges.insert(this->edges.end(), polygonEdges.begin(), polygonEdges.end());
+            }
         }
 
-        return triangles;
+        return this->edges;
+    }
+
+    int Hull::getPointIndex(const sf::Vector2f &point) const
+    {
+        for (auto index = 0; index < points.size(); ++index)
+        {
+            if (points[index] == point)
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    std::vector<Polygon> Hull::getPolygons()
+    {
+        if (this->polygons.empty())
+        {
+            CDT::Triangulation<float> cdt;
+            std::vector<CDT::V2d<float>> cdtPoints;
+            std::vector<CDT::Edge> edges;
+
+            auto index = 0;
+            for (const auto &point: points)
+            {
+                cdtPoints.push_back({point.x, point.y});
+
+                CDT::Edge edge(index, (index + 1) % points.size());
+
+                edges.push_back(edge);
+
+                index++;
+            }
+
+            cdt.insertVertices(cdtPoints);
+            cdt.insertEdges(edges);
+            cdt.eraseOuterTriangles();
+
+            auto cdtTriangles = cdt.triangles;
+
+            for (const auto &cdtTriangle: cdt.triangles)
+            {
+                auto a = cdt.vertices[cdtTriangle.vertices[0]];
+                auto b = cdt.vertices[cdtTriangle.vertices[1]];
+                auto c = cdt.vertices[cdtTriangle.vertices[2]];
+
+                this->polygons.push_back(Polygon({a, b, c}));
+            }
+        }
+
+        return this->polygons;
     }
 
     const std::vector<sf::Vector2f> &Hull::getPoints() const

@@ -62,6 +62,10 @@ add_library(${PROJECT_NAME} STATIC
         src/Clod/Algorithm/JarvisMarch.cpp
         include/Clod/Geometry/Hull.hpp
         src/Clod/Geometry/Hull.cpp
+        include/Clod/Geometry/Edge.hpp
+        src/Clod/Geometry/Edge.cpp
+        include/Clod/Geometry/Polygon.hpp
+        src/Clod/Geometry/Polygon.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
