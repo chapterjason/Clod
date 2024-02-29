@@ -259,7 +259,7 @@ namespace Clod
         {
             for (const auto &polygon: polygons)
             {
-                const auto polygonEdges = polygon.edges();
+                const auto polygonEdges = polygon.getEdges();
                 const auto outerEdges = this->getOuterEdges();
 
                 for (const auto &polygonEdge: polygonEdges)
@@ -286,7 +286,7 @@ namespace Clod
 
             for (const auto &polygon: polygons)
             {
-                const auto polygonEdges = polygon.edges();
+                const auto polygonEdges = polygon.getEdges();
 
                 this->edges.insert(this->edges.end(), polygonEdges.begin(), polygonEdges.end());
             }
