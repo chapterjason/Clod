@@ -16,8 +16,9 @@ namespace Clod
         throw std::runtime_error("This should not happen");
     }
 
-    CompositePolygon::CompositePolygon(const vector &polygons, const std::vector<Vertex> &outerVertices): vector(polygons),
-        outerVertices(outerVertices) {}
+    CompositePolygon::CompositePolygon(const vector &polygons, const std::vector<Vertex> &outerVertices)
+        : vector(polygons),
+          outerVertices(outerVertices) {}
 
     std::vector<Polygon> CompositePolygon::pick(const std::vector<int> &indices) const
     {
@@ -110,6 +111,50 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
+    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Vertex &vertexA, const Vertex &vertexB) const
+    {
+        auto adjacentPolygonIndices = std::set<int>();
+
+        for (auto index = 0; index < this->size(); ++index)
+        {
+            const auto polygon = this->at(index);
+
+            for (const auto &edge: polygon.getEdges())
+            {
+                if (edge.contains(vertexA) && edge.contains(vertexB))
+                {
+                    adjacentPolygonIndices.insert(index);
+                }
+            }
+        }
+
+        return this->pick(adjacentPolygonIndices);
+    }
+
+    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(
+        const Vertex &vertexA,
+        const Vertex &vertexB,
+        const Vertex &vertexC
+    ) const
+    {
+        auto adjacentPolygonIndices = std::set<int>();
+
+        for (auto index = 0; index < this->size(); ++index)
+        {
+            const auto polygon = this->at(index);
+
+            for (const auto &edge: polygon.getEdges())
+            {
+                if (edge.contains(vertexA) && edge.contains(vertexB) && edge.contains(vertexC))
+                {
+                    adjacentPolygonIndices.insert(index);
+                }
+            }
+        }
+
+        return this->pick(adjacentPolygonIndices);
+    }
+
     std::vector<Edge> CompositePolygon::getEdges() const
     {
         auto edges = std::vector<Edge>();
@@ -121,7 +166,7 @@ namespace Clod
             for (const auto &edge: polygonEdges)
             {
                 // prevent duplicates
-                if(std::any_of(edges.begin(), edges.end(), [edge](const Edge &other)
+                if (std::any_of(edges.begin(), edges.end(), [edge](const Edge &other)
                 {
                     return edge == other;
                 }))
