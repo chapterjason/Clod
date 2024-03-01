@@ -42,6 +42,32 @@ namespace Clod
         return Vertex(this->x + other.x, this->y + other.y);
     }
 
+    Vertex Vertex::operator+(const sf::Vector2f &other) const
+    {
+        return Vertex(this->x + other.x, this->y + other.y);
+    }
+
+    Vertex Vertex::operator-(const sf::Vector2f &other) const
+    {
+        return Vertex(this->x - other.x, this->y - other.y);
+    }
+
+    Vertex & Vertex::operator+=(const sf::Vector2f &other)
+    {
+        this->x += other.x;
+        this->y += other.y;
+
+        return *this;
+    }
+
+    Vertex & Vertex::operator-=(const sf::Vector2f &other)
+    {
+        this->x -= other.x;
+        this->y -= other.y;
+
+        return *this;
+    }
+
     Vertex Vertex::operator-(const Vertex &other) const
     {
         return Vertex(this->x - other.x, this->y - other.y);

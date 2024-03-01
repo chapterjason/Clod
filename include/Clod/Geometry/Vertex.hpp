@@ -33,7 +33,11 @@ namespace Clod
 
         Vertex operator+(const Vertex &other) const;
 
+        Vertex operator+(const sf::Vector2f &other) const;
+
         Vertex operator-(const Vertex &other) const;
+
+        Vertex operator-(const sf::Vector2f &other) const;
 
         Vertex operator*(float value) const;
 
@@ -41,7 +45,11 @@ namespace Clod
 
         Vertex &operator+=(const Vertex &other);
 
+        Vertex &operator+=(const sf::Vector2f &other);
+
         Vertex &operator-=(const Vertex &other);
+
+        Vertex &operator-=(const sf::Vector2f &other);
 
         Vertex &operator*=(float value);
 
