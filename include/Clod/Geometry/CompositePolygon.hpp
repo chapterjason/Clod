@@ -18,6 +18,12 @@ namespace Clod
 
             void remove(const Polygon &other);
 
+            [[nodiscard]] bool contains(const Polygon &other) const;
+
+            [[nodiscard]] bool contains(const Edge &other) const;
+
+            [[nodiscard]] bool contains(const Vertex &other) const;
+
             [[nodiscard]] std::vector<Polygon> pick(const std::vector<int> &indices) const;
 
             [[nodiscard]] std::vector<Polygon> pick(const std::set<int> &indices) const;

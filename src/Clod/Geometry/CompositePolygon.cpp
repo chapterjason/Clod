@@ -25,6 +25,34 @@ namespace Clod
         this->erase(std::remove(this->begin(), this->end(), other), this->end());
     }
 
+    bool CompositePolygon::contains(const Polygon &other) const
+    {
+        return std::any_of(this->begin(), this->end(), [other](const Polygon &polygon)
+        {
+            return polygon == other;
+        });
+    }
+
+    bool CompositePolygon::contains(const Edge &other) const
+    {
+        const auto edges = this->getEdges();
+
+        return std::any_of(edges.begin(), edges.end(), [other](const Edge &edge)
+        {
+            return edge == other;
+        });
+    }
+
+    bool CompositePolygon::contains(const Vertex &other) const
+    {
+        const auto vertices = this->getVertices();
+
+        return std::any_of(vertices.begin(), vertices.end(), [other](const Vertex &vertex)
+        {
+            return vertex == other;
+        });
+    }
+
     std::vector<Polygon> CompositePolygon::pick(const std::vector<int> &indices) const
     {
         auto polygons = std::vector<Polygon>();
