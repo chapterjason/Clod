@@ -4,20 +4,22 @@
 #include <vector>
 #include <SFML/System.hpp>
 
+#include <Clod/Geometry/Vertex.hpp>
+
 namespace Clod
 {
     struct Edge
     {
-        sf::Vector2f a;
-        sf::Vector2f b;
+        Vertex a;
+        Vertex b;
 
-        Edge(const sf::Vector2f &a, const sf::Vector2f &b);
+        Edge(const Vertex &a, const Vertex &b);
 
         bool operator==(const Edge &other) const;
 
         bool operator!=(const Edge &other) const;
 
-        [[nodiscard]] bool contains(const sf::Vector2f &point) const;
+        [[nodiscard]] bool contains(const Vertex &vertex) const;
 
         [[nodiscard]] bool isInsideVector(const std::vector<Edge> &edges) const;
 
@@ -27,7 +29,7 @@ namespace Clod
 
         [[nodiscard]] std::optional<sf::Angle> angle(const Edge &other) const;
 
-        [[nodiscard]] sf::Vector2f midpoint() const;
+        [[nodiscard]] Vertex midpoint() const;
 
         [[nodiscard]] std::string toString() const;
     };

@@ -2,25 +2,27 @@
 
 #include <algorithm>
 
+#include <Clod/Geometry/Vertex.hpp>
+
 namespace Clod
 {
     namespace Internal
     {
-        // Add a point to the list if it doesn't already exist
-        void addPoint(std::vector<sf::Vector2f> &points, const int x, const int y)
+        // Add a vertex to the list if it doesn't already exist
+        void addVertex(std::vector<Vertex> &vertices, const int x, const int y)
         {
-            auto point = sf::Vector2f(static_cast<float>(x), static_cast<float>(y));
+            auto vertex = Vertex(x, y);
 
-            if (std::find(points.begin(), points.end(), point) == points.end())
+            if (std::find(vertices.begin(), vertices.end(), vertex) == vertices.end())
             {
-                points.push_back(point);
+                vertices.push_back(vertex);
             }
         }
     }
 
-    std::vector<sf::Vector2f> detectEdges(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance)
+    std::vector<Vertex> detectEdges(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance)
     {
-        auto points = std::vector<sf::Vector2f>{};
+        auto vertices = std::vector<Vertex>{};
 
         const auto sizes = image->getSize();
         const auto width = sizes.x;
@@ -37,7 +39,7 @@ namespace Clod
 
                 if (!inside && pixel.a > alphaTolerance)
                 {
-                    Internal::addPoint(points, x, y);
+                    Internal::addVertex(vertices, x, y);
                     inside = true;
                 }
                 else if (inside && pixel.a > alphaTolerance)
@@ -58,7 +60,7 @@ namespace Clod
 
                     if (restTransparent)
                     {
-                        Internal::addPoint(points, x, y);
+                        Internal::addVertex(vertices, x, y);
                         inside = false;
                     }
                 }
@@ -77,7 +79,7 @@ namespace Clod
 
                 if (!inside && pixel.a > alphaTolerance)
                 {
-                    Internal::addPoint(points, x, y);
+                    Internal::addVertex(vertices, x, y);
                     inside = true;
                 }
                 else if (inside && pixel.a > alphaTolerance)
@@ -98,7 +100,7 @@ namespace Clod
 
                     if (restTransparent)
                     {
-                        Internal::addPoint(points, x, y);
+                        Internal::addVertex(vertices, x, y);
                         inside = false;
                     }
                 }
@@ -108,6 +110,6 @@ namespace Clod
             inside = false;
         }
 
-        return points;
+        return vertices;
     }
 }

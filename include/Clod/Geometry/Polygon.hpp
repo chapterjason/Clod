@@ -3,15 +3,18 @@
 #include <vector>
 #include <SFML/System.hpp>
 
-#include "Edge.hpp"
+#include <Clod/Geometry/Vertex.hpp>
+#include <Clod/Geometry/Edge.hpp>
 
 namespace Clod
 {
     struct Polygon
     {
-        std::vector<sf::Vector2f> vertices;
+        std::vector<Vertex> vertices;
 
-        explicit Polygon(const std::vector<sf::Vector2f> &vertices);
+        explicit Polygon(const std::vector<Vertex> &vertices);
+
+        void addVertex(const Vertex &vertex);
 
         bool operator==(const Polygon &other) const;
 
@@ -22,5 +25,9 @@ namespace Clod
         [[nodiscard]] bool contains(const Edge &other) const;
 
         [[nodiscard]] std::string toString() const;
+
+        [[nodiscard]] float area() const;
+
+        [[nodiscard]] Vertex centroid() const;
     };
 }

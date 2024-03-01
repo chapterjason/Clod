@@ -2,10 +2,11 @@
 #include <algorithm>
 
 #include "Clod/Geometry/Position.hpp"
+#include "Clod/Geometry/Vertex.hpp"
 
 namespace Clod
 {
-    Edge::Edge(const sf::Vector2f &a, const sf::Vector2f &b): a(a), b(b) {}
+    Edge::Edge(const Vertex &a, const Vertex &b): a(a), b(b) {}
 
     bool Edge::operator==(const Edge &other) const {
         return (this->a == other.a && this->b == other.b) || (this->a == other.b && this->b == other.a);
@@ -16,9 +17,9 @@ namespace Clod
         return !(*this == other);
     }
 
-    bool Edge::contains(const sf::Vector2f &point) const
+    bool Edge::contains(const Vertex &vertex) const
     {
-        return this->a == point || this->b == point;
+        return this->a == vertex || this->b == vertex;
     }
 
     bool Edge::isInsideVector(const std::vector<Edge> &edges) const {
@@ -30,20 +31,20 @@ namespace Clod
 
     float Edge::length() const
     {
-        return distance(this->a, this->b);
+        return this->a.distance(this->b);
     }
 
     sf::Angle Edge::direction() const
     {
-        return Clod::angle(this->a, this->b);
+        return this->a.angle(this->b);
     }
 
     std::optional<sf::Angle> Edge::angle(const Edge &other) const
     {
-        // p is the common point
-        // a is the point of this edge which is not p
-        // b is the point of the other edge which is not p
-        sf::Vector2f a, b, p;
+        // p is the common vertex
+        // a is the vertex of this edge which is not p
+        // b is the vertex of the other edge which is not p
+        Vertex a, b, p;
 
         if (this->a == other.a)
         {
@@ -75,10 +76,10 @@ namespace Clod
         }
 
         // calculate the angle
-        return Clod::angle(p, a) - Clod::angle(p, b);
+        return p.angle(a) - p.angle(b);
     }
 
-    sf::Vector2f Edge::midpoint() const
+    Vertex Edge::midpoint() const
     {
         return (this->a + this->b) / 2.f;
     }

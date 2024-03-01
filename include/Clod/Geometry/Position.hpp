@@ -3,40 +3,24 @@
 #include <SFML/System.hpp>
 #include <vector>
 
+#include "Vertex.hpp"
+
 namespace Clod
 {
     /**
-     * Calculates the Euclidean distance between two points in 2D space.
-     * This function is useful for determining the straight-line distance
-     * between two points (a and b) represented as 2D vectors.
+     * Calculates the perpendicular distance between a line segment and a vertex.
      */
-    float distance(const sf::Vector2f &a, const sf::Vector2f &b);
-
-    /**
-     * Calculates the squared Euclidean distance between two points in 2D space.
-     * This is more performant than calculating the actual Euclidean distance
-     * as it avoids the costly square root operation. It's useful in scenarios
-     * where relative distances are compared, like in optimization or search
-     * algorithms.
-     */
-    float squaredDistance(const sf::Vector2f &a, const sf::Vector2f &b);
-
-    /**
-     * Calculates the perpendicular distance between a line segment and a point.
-     */
-    float perpendicularDistance(const sf::Vector2f &start, const sf::Vector2f &end, const sf::Vector2f &point);
+    float perpendicularDistance(const Vertex &start, const Vertex &end, const Vertex &vertex);
 
     /**
      * Returns 0 if collinear, 1 if clockwise, 2 if counter-clockwise.
      */
-    int orientation(const sf::Vector2f &pointA, const sf::Vector2f &pointB, const sf::Vector2f &pointC);
-
-    sf::Angle angle(const sf::Vector2f &pointA, const sf::Vector2f &pointB);
+    int orientation(const Vertex &vertexA, const Vertex &vertexB, const Vertex &vertexC);
 
     /**
-     * Calculates the disruption caused by inserting point P between edge A->B.
+     * Calculates the disruption caused by inserting vertex P between edge A->B.
      */
-    float disruption(const sf::Vector2f &A, const sf::Vector2f &B, const sf::Vector2f &P);
+    float disruption(const Vertex &A, const Vertex &B, const Vertex &P);
 
-    sf::Vector2f centroid(const std::vector<sf::Vector2f> &points);
+    Vertex centroid(const std::vector<Vertex> &vertexs);
 }

@@ -1,29 +1,21 @@
 #include <Clod/Geometry/Position.hpp>
 #include <cmath>
 
+#include "Clod/Geometry/Vertex.hpp"
+
 namespace Clod
 {
-    float distance(const sf::Vector2f &a, const sf::Vector2f &b)
+    float perpendicularDistance(const Vertex &start, const Vertex &end, const Vertex &vertex)
     {
-        return sqrtf(powf(a.x - b.x, 2) + powf(a.y - b.y, 2));
+        const auto normalLength = start.distance(end);
+        const auto signedArea = (vertex.x - start.x) * (end.y - start.y) - (vertex.y - start.y) * (end.x - start.x);
+
+        return std::fabs(signedArea) / normalLength;
     }
 
-    float squaredDistance(const sf::Vector2f &a, const sf::Vector2f &b)
+    int orientation(const Vertex &vertexA, const Vertex &vertexB, const Vertex &vertexC)
     {
-        return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
-    }
-
-    float perpendicularDistance(const sf::Vector2f &start, const sf::Vector2f &end, const sf::Vector2f &point)
-    {
-        const auto normalLength = distance(start, end);
-        const auto signedArea  = (point.x - start.x) * (end.y - start.y) - (point.y - start.y) * (end.x - start.x);
-
-        return std::fabs(signedArea ) / normalLength;
-    }
-
-    int orientation(const sf::Vector2f &pointA, const sf::Vector2f &pointB, const sf::Vector2f &pointC)
-    {
-        const auto area = (pointB.y - pointA.y) * (pointC.x - pointB.x) - (pointB.x - pointA.x) * (pointC.y - pointB.y);
+        const auto area = (vertexB.y - vertexA.y) * (vertexC.x - vertexB.x) - (vertexB.x - vertexA.x) * (vertexC.y - vertexB.y);
 
         if (area == 0)
         {
@@ -34,34 +26,29 @@ namespace Clod
         return (area > 0) ? 1 : 2; // Clockwise or Counter-clockwise
     }
 
-    sf::Angle angle(const sf::Vector2f &pointA, const sf::Vector2f &pointB)
+    float disruption(const Vertex &A, const Vertex &B, const Vertex &P)
     {
-        return sf::radians(atan2f(pointB.y - pointA.y, pointB.x - pointA.x));
-    }
-
-    float disruption(const sf::Vector2f &A, const sf::Vector2f &B, const sf::Vector2f &P)
-    {
-        const auto dAB = distance(A, B);
-        const auto dAP = distance(A, P);
-        const auto dPB = distance(P, B);
+        const auto dAB = A.distance(B);
+        const auto dAP = A.distance(P);
+        const auto dPB = P.distance(B);
 
         return dAP + dPB - dAB;
     }
 
-    sf::Vector2f centroid(const std::vector<sf::Vector2f> &points)
+    Vertex centroid(const std::vector<Vertex> &vertices)
     {
         float x = 0;
         float y = 0;
 
-        for (const auto &point: points)
+        for (const auto &vertex: vertices)
         {
-            x += point.x;
-            y += point.y;
+            x += vertex.x;
+            y += vertex.y;
         }
 
-        x /= static_cast<float>(points.size());
-        y /= static_cast<float>(points.size());
+        x /= static_cast<float>(vertices.size());
+        y /= static_cast<float>(vertices.size());
 
-        return {x, y};
+        return Vertex(x, y);
     }
 }

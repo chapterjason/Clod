@@ -5,8 +5,8 @@
 
 namespace Clod
 {
-    const float SCALE_TO_PIXEL = 30.f;
-    const float SCALE_TO_METER = 1.f / SCALE_TO_PIXEL;
+    const auto SCALE_TO_PIXEL = 30.f;
+    const auto SCALE_TO_METER = 1.f / SCALE_TO_PIXEL;
 
     /**
      * Converts SFML vector (float) to Box2D vector, scaling from pixels to meters.

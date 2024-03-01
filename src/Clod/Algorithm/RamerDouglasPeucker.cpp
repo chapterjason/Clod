@@ -1,23 +1,23 @@
 #include <cmath>
 #include <Clod/Algorithm/RamerDouglasPeucker.hpp>
 
-#include "Clod/Geometry/Position.hpp"
+#include <Clod/Geometry/Position.hpp>
 
 namespace Clod
 {
     namespace Internal
     {
         void RamerDouglasPeuckerLoop(
-            const std::vector<sf::Vector2f> &path,
+            const std::vector<Vertex> &path,
             const double curveThreshold,
-            std::vector<sf::Vector2f> &result,
+            std::vector<Vertex> &result,
             const int beginIndex,
             const int endIndex
         )
         {
             if (endIndex <= beginIndex + 1)
             {
-                // not enough points to simplify
+                // not enough vertices to simplify
                 return;
             }
 
@@ -36,26 +36,26 @@ namespace Clod
 
             if (longestDistance > curveThreshold)
             {
-                // Simplify the segments before and after the current point
+                // Simplify the segments before and after the current vertex
                 RamerDouglasPeuckerLoop(path, curveThreshold, result, beginIndex, indexWithLongestDistance);
-                result.push_back(path[indexWithLongestDistance]); // include the current point in the result
+                result.push_back(path[indexWithLongestDistance]); // include the current vertex in the result
                 RamerDouglasPeuckerLoop(path, curveThreshold, result, indexWithLongestDistance, endIndex);
             }
         }
     }
 
-    std::vector<sf::Vector2f> RamerDouglasPeucker(const std::vector<sf::Vector2f> &path, double curveThreshold)
+    std::vector<Vertex> RamerDouglasPeucker(const std::vector<Vertex> &path, double curveThreshold)
     {
-        // Can't simplify a path with less than 3 points
+        // Can't simplify a path with less than 3 vertices
         if (path.size() < 3)
         {
             return path;
         }
 
-        std::vector<sf::Vector2f> result;
-        result.push_back(path.front()); // always keep the first point
+        std::vector<Vertex> result;
+        result.push_back(path.front()); // always keep the first vertex
         Internal::RamerDouglasPeuckerLoop(path, curveThreshold, result, 0, static_cast<int>(path.size()) - 1);
-        result.push_back(path.back()); // always keep the last point
+        result.push_back(path.back()); // always keep the last vertex
 
         return result;
     }

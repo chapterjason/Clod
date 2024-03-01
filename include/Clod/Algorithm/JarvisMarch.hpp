@@ -1,9 +1,10 @@
 #pragma once
 
-#include <SFML/System.hpp>
 #include <vector>
+
+#include <Clod/Geometry/Vertex.hpp>
 
 namespace Clod
 {
-    std::vector<sf::Vector2f> JarvisMarch(const std::vector<sf::Vector2f> &points);
+    std::vector<Vertex> JarvisMarch(const std::vector<Vertex> &points);
 }
