@@ -9,6 +9,19 @@ namespace Clod
     Polygon::Polygon(const std::vector<Vertex> &vertices)
         : vertices(vertices) {}
 
+    int Polygon::getVertexIndex(const Vertex &vertex) const
+    {
+        for (auto index = 0; index < this->vertices.size(); ++index)
+        {
+            if (this->vertices[index] == vertex)
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
     void Polygon::addVertex(const Vertex &vertex)
     {
         auto verticies = this->vertices;
@@ -55,6 +68,28 @@ namespace Clod
         }
 
         this->vertices.insert(this->vertices.begin() + bestEdgeIndex, vertex);
+    }
+
+    void Polygon::insertVertex(const Vertex &vertex, const Edge &edge)
+    {
+        if (!this->contains(edge))
+        {
+            throw std::runtime_error("Polygon does not contain the edge");
+        }
+
+        const auto vertexA = edge.a;
+        const auto vertexB = edge.b;
+        const auto vertexAPosition = this->getVertexIndex(vertexA);
+        const auto vertexBPosition = this->getVertexIndex(vertexB);
+
+        if (vertexAPosition < vertexBPosition)
+        {
+            this->vertices.insert(this->vertices.begin() + vertexAPosition, vertex);
+        }
+        else
+        {
+            this->vertices.insert(this->vertices.begin() + vertexBPosition, vertex);
+        }
     }
 
     bool Polygon::operator==(const Polygon &other) const

@@ -14,7 +14,11 @@ namespace Clod
 
         explicit Polygon(const std::vector<Vertex> &vertices);
 
+        [[nodiscard]] int getVertexIndex(const Vertex &vertex) const;
+
         void addVertex(const Vertex &vertex);
+
+        void insertVertex(const Vertex &vertex, const Edge &edge);
 
         bool operator==(const Polygon &other) const;
 
