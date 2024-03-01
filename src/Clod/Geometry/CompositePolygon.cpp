@@ -78,7 +78,7 @@ namespace Clod
     std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Polygon &other) const
     {
         // get all edges of the polygon and return all polygons which shares the same edge
-        auto edges = other.getEdges();
+        auto otherEdges = other.getEdges();
         auto adjacentPolygonIndexes = std::set<int>();
 
         for (auto index = 0; index < this->size(); ++index)
@@ -94,7 +94,7 @@ namespace Clod
             // Compare the edges of the polygons
             for (const auto &edge: polygon.getEdges())
             {
-                for (const auto &otherEdge: polygon.getEdges())
+                for (const auto &otherEdge: otherEdges)
                 {
                     if (edge == otherEdge)
                     {
