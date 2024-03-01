@@ -40,16 +40,30 @@ namespace Clod
 
     std::optional<sf::Angle> Edge::angle(const Edge &other) const
     {
-        // determine the matching point
+        // p is the common point
+        // a is the point of this edge which is not p
+        // b is the point of the other edge which is not p
         sf::Vector2f a, b, p;
 
-        if (this->a == other.a || this->a == other.b)
+        if (this->a == other.a)
         {
             p = this->a;
             a = this->b;
             b = other.b;
         }
-        else if (this->b == other.a || this->b == other.b)
+        else if (this->a == other.b)
+        {
+            p = this->a;
+            a = this->b;
+            b = other.a;
+        }
+        else if (this->b == other.a)
+        {
+            p = this->b;
+            a = this->a;
+            b = other.b;
+        }
+        else if (this->b == other.b)
         {
             p = this->b;
             a = this->a;

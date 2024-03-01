@@ -246,6 +246,9 @@ namespace Clod
                     }
                 }
             }
+
+            // Close the hull
+            this->outerEdges.emplace_back(this->points.back(), this->points.front());
         }
 
         return this->outerEdges;
