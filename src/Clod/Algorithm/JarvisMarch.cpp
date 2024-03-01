@@ -33,7 +33,7 @@ namespace Clod
             for (auto i = 0; i < size; ++i)
             {
                 // If i is more counterclockwise than current nextVertexIndex, then update nextVertexIndex
-                if (orientation(vertices[currentVertexIndex], vertices[i], vertices[nextVertexIndex]) == 2)
+                if (vertices[currentVertexIndex].crossSign(vertices[i], vertices[nextVertexIndex]) == 1)
                 {
                     nextVertexIndex = i;
                 }

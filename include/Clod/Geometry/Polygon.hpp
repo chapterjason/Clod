@@ -30,6 +30,8 @@ namespace Clod
 
         [[nodiscard]] bool contains(const Vertex &other) const;
 
+        [[nodiscard]] bool isConcave() const;
+
         [[nodiscard]] std::optional<Edge> commonEdge(const Polygon &other) const;
 
         [[nodiscard]] std::vector<Vertex> commonVertices(const Polygon &other) const;

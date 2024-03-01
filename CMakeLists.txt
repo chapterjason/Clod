@@ -55,8 +55,6 @@ add_library(${PROJECT_NAME} STATIC
         include/Clod/Graphic/Image.hpp
         src/Clod/Graphic/Image.cpp
         include/Clod/Core.hpp
-        include/Clod/Algorithm/RamerDouglasPeucker.hpp
-        src/Clod/Algorithm/RamerDouglasPeucker.cpp
         include/Clod/Algorithm.hpp
         include/Clod/Algorithm/JarvisMarch.hpp
         src/Clod/Algorithm/JarvisMarch.cpp

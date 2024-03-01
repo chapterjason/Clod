@@ -135,6 +135,38 @@ namespace Clod
         return (this->x - other.x) * (this->x - other.x) + (this->y - other.y) * (this->y - other.y);
     }
 
+    float Vertex::cross(const Vertex &other) const
+    {
+        return this->x * other.y - this->y * other.x;
+    }
+
+    float Vertex::cross(const Vertex &otherA, const Vertex &otherB) const
+    {
+        return (otherA - *this).cross(otherB - *this);
+    }
+
+    float Vertex::perpendicularDistance(const Vertex &otherA, const Vertex &otherB) const
+    {
+        const auto normalLength = this->distance(otherA);
+        const auto crossProduct = this->cross(otherB, otherA);
+
+        return std::fabs(crossProduct) / normalLength;
+    }
+
+    float Vertex::dot(const Vertex &other) const
+    {
+        return this->x * other.x + this->y * other.y;
+    }
+
+    int Vertex::crossSign(const Vertex &otherB, const Vertex &otherC) const
+    {
+        const auto vectorAtoB  = otherB - *this;
+        const auto vectorBtoC = otherC - otherB;
+        const auto crossProduct = vectorAtoB.cross(vectorBtoC);
+
+        return (crossProduct > 0) ? 1 : (crossProduct < 0) ? -1 : 0;
+    }
+
     sf::Angle Vertex::angle(const Vertex &other) const
     {
         return sf::radians(atan2f(other.y - this->y, other.x - this->x));

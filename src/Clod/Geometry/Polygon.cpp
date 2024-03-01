@@ -156,6 +156,37 @@ namespace Clod
         });
     }
 
+    bool Polygon::isConcave() const
+    {
+        auto foundPositive = false;
+        auto foundNegative = false;
+
+        for (auto index = 0; index < this->vertices.size(); index++)
+        {
+            Vertex a = this->vertices[index];
+            Vertex b = this->vertices[(index + 1) % this->vertices.size()];
+            Vertex c = this->vertices[(index + 2) % this->vertices.size()];
+
+            const auto crossSign = a.crossSign(b, c);
+
+            if (crossSign > 0)
+            {
+                foundPositive = true;
+            }
+            else if (crossSign < 0)
+            {
+                foundNegative = true;
+            }
+
+            if (foundPositive && foundNegative)
+            {
+                return true; // The polygon is concave
+            }
+        }
+
+        return false; // The polygon is convex
+    }
+
     std::optional<Edge> Polygon::commonEdge(const Polygon &other) const
     {
         for (const auto &edge: this->getEdges())

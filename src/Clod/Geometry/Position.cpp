@@ -8,22 +8,9 @@ namespace Clod
     float perpendicularDistance(const Vertex &start, const Vertex &end, const Vertex &vertex)
     {
         const auto normalLength = start.distance(end);
-        const auto signedArea = (vertex.x - start.x) * (end.y - start.y) - (vertex.y - start.y) * (end.x - start.x);
+        const auto crossProduct = start.cross(vertex, end);
 
-        return std::fabs(signedArea) / normalLength;
-    }
-
-    int orientation(const Vertex &vertexA, const Vertex &vertexB, const Vertex &vertexC)
-    {
-        const auto area = (vertexB.y - vertexA.y) * (vertexC.x - vertexB.x) - (vertexB.x - vertexA.x) * (vertexC.y - vertexB.y);
-
-        if (area == 0)
-        {
-            // Collinear
-            return 0;
-        }
-
-        return (area > 0) ? 1 : 2; // Clockwise or Counter-clockwise
+        return std::fabs(crossProduct) / normalLength;
     }
 
     float disruption(const Vertex &A, const Vertex &B, const Vertex &P)

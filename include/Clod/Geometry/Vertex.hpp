@@ -63,6 +63,16 @@ namespace Clod
 
         [[nodiscard]] float squaredDistance(const Vertex &other) const;
 
+        [[nodiscard]] float cross(const Vertex &other) const;
+
+        [[nodiscard]] float cross(const Vertex &otherA, const Vertex &otherB) const;
+
+        [[nodiscard]] float perpendicularDistance(const Vertex &otherA, const Vertex &otherB) const;
+
+        [[nodiscard]] float dot(const Vertex &other) const;
+
+        [[nodiscard]] int crossSign(const Vertex& otherB, const Vertex& otherC) const;
+
         [[nodiscard]] sf::Angle angle(const Vertex &other) const;
 
         [[nodiscard]] sf::Vector2f toSFML() const;

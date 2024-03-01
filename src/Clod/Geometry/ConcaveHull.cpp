@@ -46,7 +46,7 @@ namespace Clod
 
             for (auto i = start + 1; i < end; ++i)
             {
-                auto distance = perpendicularDistance(vertices[start], vertices[end], vertices[i]);
+                const auto distance = vertices[start].perpendicularDistance(vertices[end], vertices[i]);
 
                 if (distance > maxDistance)
                 {

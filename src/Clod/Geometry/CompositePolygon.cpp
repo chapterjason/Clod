@@ -256,7 +256,6 @@ namespace Clod
     {
         auto outerEdges = std::vector<Edge>();
 
-        // Cycle through all outer vertices and create edges
         for (const auto &edge: this->getEdges())
         {
             const auto aIndex = this->getOuterVertexIndex(edge.a);
