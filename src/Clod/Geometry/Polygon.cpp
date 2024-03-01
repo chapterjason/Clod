@@ -32,6 +32,11 @@ namespace Clod
         return equal;
     }
 
+    bool Polygon::operator!=(const Polygon &other) const
+    {
+        return !(*this == other);
+    }
+
     std::vector<Edge> Polygon::getEdges() const
     {
         auto edges = std::vector<Edge>();

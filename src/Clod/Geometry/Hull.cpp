@@ -366,16 +366,18 @@ namespace Clod
         return edges;
     }
 
-    std::vector<Edge> Hull::getSiblingEdges(const Edge &edge, const sf::Vector2f &point)
+    std::vector<Edge> Hull::getSiblingEdges(const Edge &other, const sf::Vector2f &point)
     {
-        auto edges = this->getEdges(point);
-        const auto it = std::find(edges.begin(), edges.end(), edge);
+        auto siblings = std::vector<Edge>();
 
-        if (it != edges.end())
+        for (const auto &edge: this->getEdges())
         {
-            edges.erase(it);
+            if (edge != other && edge.contains(point))
+            {
+                siblings.push_back(edge);
+            }
         }
 
-        return edges;
+        return siblings;
     }
 }

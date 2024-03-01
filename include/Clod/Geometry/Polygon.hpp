@@ -15,6 +15,8 @@ namespace Clod
 
         bool operator==(const Polygon &other) const;
 
+        bool operator!=(const Polygon &other) const;
+
         [[nodiscard]] std::vector<Edge> getEdges() const;
 
         [[nodiscard]] bool contains(const Edge &other) const;

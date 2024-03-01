@@ -11,6 +11,11 @@ namespace Clod
         return (this->a == other.a && this->b == other.b) || (this->a == other.b && this->b == other.a);
     }
 
+    bool Edge::operator!=(const Edge &other) const
+    {
+        return !(*this == other);
+    }
+
     bool Edge::contains(const sf::Vector2f &point) const
     {
         return this->a == point || this->b == point;
