@@ -91,6 +91,44 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
+    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Edge &edgeA, const Edge &edgeB) const
+    {
+        auto adjacentPolygonIndices = std::set<int>();
+
+        for (auto index = 0; index < this->size(); ++index)
+        {
+            const auto polygon = this->at(index);
+
+            if (polygon.contains(edgeA) && polygon.contains(edgeB))
+            {
+                adjacentPolygonIndices.insert(index);
+            }
+        }
+
+        return this->pick(adjacentPolygonIndices);
+    }
+
+    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(
+        const Edge &edgeA,
+        const Edge &edgeB,
+        const Edge &edgeC
+    ) const
+    {
+        auto adjacentPolygonIndices = std::set<int>();
+
+        for (auto index = 0; index < this->size(); ++index)
+        {
+            const auto polygon = this->at(index);
+
+            if (polygon.contains(edgeA) && polygon.contains(edgeB) && polygon.contains(edgeC))
+            {
+                adjacentPolygonIndices.insert(index);
+            }
+        }
+
+        return this->pick(adjacentPolygonIndices);
+    }
+
     std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Vertex &other) const
     {
         auto adjacentPolygonIndices = std::set<int>();

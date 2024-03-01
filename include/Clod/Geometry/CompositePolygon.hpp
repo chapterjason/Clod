@@ -26,6 +26,10 @@ namespace Clod
 
             [[nodiscard]] std::vector<Polygon> findAdjacentPolygons(const Edge &other) const;
 
+            [[nodiscard]] std::vector<Polygon> findAdjacentPolygons(const Edge &edgeA, const Edge &edgeB) const;
+
+            [[nodiscard]] std::vector<Polygon> findAdjacentPolygons(const Edge &edgeA, const Edge &edgeB, const Edge &edgeC) const;
+
             [[nodiscard]] std::vector<Polygon> findAdjacentPolygons(const Vertex &other) const;
 
             [[nodiscard]] std::vector<Polygon> findAdjacentPolygons(const Vertex &vertexA, const Vertex &vertexB) const;
