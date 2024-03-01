@@ -37,10 +37,18 @@ namespace Clod
 
             bool insertVertex(const Vertex &vertex);
 
+            bool insertVertex(const sf::Vector2f &vertex);
+
+            bool insertVertex(const b2Vec2 &vertex);
+
             void removeVertex(const Vertex &vertex);
+
+            void removeVertex(const sf::Vector2f &vertex);
+
+            void removeVertex(const b2Vec2 &vertex);
 
             [[nodiscard]] std::vector<Vertex> getVertices() const;
 
-            CompositePolygon getPolygons();
+            std::shared_ptr<CompositePolygon> getPolygon();
     };
 }

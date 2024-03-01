@@ -194,6 +194,26 @@ namespace Clod
         return false;
     }
 
+    bool ConcaveHull::insertVertex(const sf::Vector2f &vertex)
+    {
+        return this->insertVertex(Vertex(vertex));
+    }
+
+    bool ConcaveHull::insertVertex(const b2Vec2 &vertex)
+    {
+        return this->insertVertex(Vertex(vertex));
+    }
+
+    void ConcaveHull::removeVertex(const sf::Vector2f &vertex)
+    {
+        this->removeVertex(Vertex(vertex));
+    }
+
+    void ConcaveHull::removeVertex(const b2Vec2 &vertex)
+    {
+        this->removeVertex(Vertex(vertex));
+    }
+
     void ConcaveHull::removeVertex(const Vertex &vertex)
     {
         const auto index = std::find(this->vertices.begin(), this->vertices.end(), vertex);
@@ -214,7 +234,7 @@ namespace Clod
         this->vertices = this->simplifyCluster(clusterTolerance);
     }
 
-    CompositePolygon ConcaveHull::getPolygons()
+    std::shared_ptr<CompositePolygon> ConcaveHull::getPolygon()
     {
         std::vector<Polygon> polygons;
         CDT::Triangulation<float> cdt;
@@ -252,7 +272,7 @@ namespace Clod
                                              }));
         }
 
-        return {polygons, this->vertices};
+        return std::make_shared<CompositePolygon>(polygons, this->vertices);
     }
 
     std::vector<Vertex> ConcaveHull::getVertices() const

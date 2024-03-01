@@ -115,7 +115,7 @@ namespace Clod
         return *this;
     }
 
-    Vertex::operator sf::Vector2<float>() const
+    Vertex::operator sf::Vector2f() const
     {
         return {this->x, this->y};
     }
