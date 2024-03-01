@@ -16,6 +16,8 @@ namespace Clod
         public:
             CompositePolygon(const vector &polygons, const std::vector<Vertex> &outerVertices);
 
+            void remove(const Polygon &other);
+
             [[nodiscard]] std::vector<Polygon> pick(const std::vector<int> &indices) const;
 
             [[nodiscard]] std::vector<Polygon> pick(const std::set<int> &indices) const;

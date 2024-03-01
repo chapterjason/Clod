@@ -20,6 +20,11 @@ namespace Clod
         : vector(polygons),
           outerVertices(outerVertices) {}
 
+    void CompositePolygon::remove(const Polygon &other)
+    {
+        this->erase(std::remove(this->begin(), this->end(), other), this->end());
+    }
+
     std::vector<Polygon> CompositePolygon::pick(const std::vector<int> &indices) const
     {
         auto polygons = std::vector<Polygon>();
