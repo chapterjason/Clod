@@ -55,9 +55,9 @@ namespace Clod
 
         Vertex &operator/=(float value);
 
-        explicit operator sf::Vector2f() const;
+        operator sf::Vector2f() const;
 
-        explicit operator b2Vec2() const;
+        operator b2Vec2() const;
 
         [[nodiscard]] float distance(const Vertex &other) const;
 
