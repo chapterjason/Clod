@@ -121,6 +121,34 @@ namespace Clod
         });
     }
 
+    std::optional<Edge> Polygon::commonEdge(const Polygon &other) const
+    {
+        for (const auto &edge: this->getEdges())
+        {
+            if (other.contains(edge))
+            {
+                return edge;
+            }
+        }
+
+        return std::nullopt;
+    }
+
+    std::vector<Vertex> Polygon::commonVertices(const Polygon &other) const
+    {
+        auto commonVertices = std::vector<Vertex>();
+
+        for (const auto &vertex: this->vertices)
+        {
+            if (other.contains(vertex))
+            {
+                commonVertices.push_back(vertex);
+            }
+        }
+
+        return commonVertices;
+    }
+
     std::string Polygon::toString() const
     {
         auto result = std::string("Polygon: {\n");

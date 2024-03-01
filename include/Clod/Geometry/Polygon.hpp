@@ -26,6 +26,10 @@ namespace Clod
 
         [[nodiscard]] bool contains(const Vertex &other) const;
 
+        [[nodiscard]] std::optional<Edge> commonEdge(const Polygon &other) const;
+
+        [[nodiscard]] std::vector<Vertex> commonVertices(const Polygon &other) const;
+
         [[nodiscard]] std::string toString() const;
 
         [[nodiscard]] float area() const;
