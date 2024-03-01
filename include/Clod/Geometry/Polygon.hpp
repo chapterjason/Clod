@@ -32,9 +32,17 @@ namespace Clod
 
         [[nodiscard]] bool isConcave() const;
 
-        [[nodiscard]] std::optional<Edge> commonEdge(const Polygon &other) const;
+        [[nodiscard]] std::vector<Edge> intersectEdges(const Polygon &other) const;
 
-        [[nodiscard]] std::vector<Vertex> commonVertices(const Polygon &other) const;
+        [[nodiscard]] std::vector<Edge> differenceEdges(const Polygon &other) const;
+
+        [[nodiscard]] std::vector<Edge> symmetricDifferenceEdges(const Polygon &other) const;
+
+        [[nodiscard]] std::vector<Edge> intersectVertices(const Polygon &other) const;
+
+        [[nodiscard]] std::vector<Edge> differenceVertices(const Polygon &other) const;
+
+        [[nodiscard]] std::vector<Edge> symmetricDifferenceVertices(const Polygon &other) const;
 
         [[nodiscard]] std::string toString() const;
 

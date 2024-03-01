@@ -187,32 +187,110 @@ namespace Clod
         return false; // The polygon is convex
     }
 
-    std::optional<Edge> Polygon::commonEdge(const Polygon &other) const
+    std::vector<Edge> Polygon::intersectEdges(const Polygon &other) const
     {
+        auto intersectEdges = std::vector<Edge>();
+
         for (const auto &edge: this->getEdges())
         {
             if (other.contains(edge))
             {
-                return edge;
+                intersectEdges.push_back(edge);
             }
         }
 
-        return std::nullopt;
+        return intersectEdges;
     }
 
-    std::vector<Vertex> Polygon::commonVertices(const Polygon &other) const
+    std::vector<Edge> Polygon::differenceEdges(const Polygon &other) const
     {
-        auto commonVertices = std::vector<Vertex>();
+        auto differenceEdges = std::vector<Edge>();
 
-        for (const auto &vertex: this->vertices)
+        for (const auto &edge: this->getEdges())
         {
-            if (other.contains(vertex))
+            if (!other.contains(edge))
             {
-                commonVertices.push_back(vertex);
+                differenceEdges.push_back(edge);
             }
         }
 
-        return commonVertices;
+        return differenceEdges;
+    }
+
+    std::vector<Edge> Polygon::symmetricDifferenceEdges(const Polygon &other) const
+    {
+        auto symmetricDifferenceEdges = std::vector<Edge>();
+
+        for (const auto &edge: this->getEdges())
+        {
+            if (!other.contains(edge))
+            {
+                symmetricDifferenceEdges.push_back(edge);
+            }
+        }
+
+        for (const auto &edge: other.getEdges())
+        {
+            if (!this->contains(edge))
+            {
+                symmetricDifferenceEdges.push_back(edge);
+            }
+        }
+
+        return symmetricDifferenceEdges;
+    }
+
+    std::vector<Edge> Polygon::intersectVertices(const Polygon &other) const
+    {
+        auto intersectEdges = std::vector<Edge>();
+
+        for (const auto &edge: this->getEdges())
+        {
+            if (other.contains(edge))
+            {
+                intersectEdges.push_back(edge);
+            }
+        }
+
+        return intersectEdges;
+    }
+
+    std::vector<Edge> Polygon::differenceVertices(const Polygon &other) const
+    {
+        auto differenceEdges = std::vector<Edge>();
+
+        for (const auto &edge: this->getEdges())
+        {
+            if (!other.contains(edge))
+            {
+                differenceEdges.push_back(edge);
+            }
+        }
+
+        return differenceEdges;
+    }
+
+    std::vector<Edge> Polygon::symmetricDifferenceVertices(const Polygon &other) const
+    {
+        auto symmetricDifferenceEdges = std::vector<Edge>();
+
+        for (const auto &edge: this->getEdges())
+        {
+            if (!other.contains(edge))
+            {
+                symmetricDifferenceEdges.push_back(edge);
+            }
+        }
+
+        for (const auto &edge: other.getEdges())
+        {
+            if (!this->contains(edge))
+            {
+                symmetricDifferenceEdges.push_back(edge);
+            }
+        }
+
+        return symmetricDifferenceEdges;
     }
 
     std::string Polygon::toString() const
