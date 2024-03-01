@@ -1,7 +1,7 @@
 #include <algorithm>
+#include <any>
 #include <cmath>
 #include <Clod/Geometry/Polygon.hpp>
-
 #include "Clod/Geometry/Position.hpp"
 
 namespace Clod
@@ -110,6 +110,14 @@ namespace Clod
         return std::any_of(edges.begin(), edges.end(), [other](const Edge &edge)
         {
             return edge == other;
+        });
+    }
+
+    bool Polygon::contains(const Vertex &other) const
+    {
+        return std::any_of(vertices.begin(), vertices.end(), [other](const Vertex &vertex)
+        {
+            return vertex == other;
         });
     }
 

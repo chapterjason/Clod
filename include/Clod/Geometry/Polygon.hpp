@@ -24,6 +24,8 @@ namespace Clod
 
         [[nodiscard]] bool contains(const Edge &other) const;
 
+        [[nodiscard]] bool contains(const Vertex &other) const;
+
         [[nodiscard]] std::string toString() const;
 
         [[nodiscard]] float area() const;
