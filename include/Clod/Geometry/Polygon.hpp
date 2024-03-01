@@ -38,11 +38,11 @@ namespace Clod
 
         [[nodiscard]] std::vector<Edge> symmetricDifferenceEdges(const Polygon &other) const;
 
-        [[nodiscard]] std::vector<Edge> intersectVertices(const Polygon &other) const;
+        [[nodiscard]] std::vector<Vertex> intersectVertices(const Polygon &other) const;
 
-        [[nodiscard]] std::vector<Edge> differenceVertices(const Polygon &other) const;
+        [[nodiscard]] std::vector<Vertex> differenceVertices(const Polygon &other) const;
 
-        [[nodiscard]] std::vector<Edge> symmetricDifferenceVertices(const Polygon &other) const;
+        [[nodiscard]] std::vector<Vertex> symmetricDifferenceVertices(const Polygon &other) const;
 
         [[nodiscard]] std::string toString() const;
 

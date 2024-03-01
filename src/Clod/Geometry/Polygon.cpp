@@ -240,57 +240,57 @@ namespace Clod
         return symmetricDifferenceEdges;
     }
 
-    std::vector<Edge> Polygon::intersectVertices(const Polygon &other) const
+    std::vector<Vertex> Polygon::intersectVertices(const Polygon &other) const
     {
-        auto intersectEdges = std::vector<Edge>();
+        auto intersectVertices = std::vector<Vertex>();
 
-        for (const auto &edge: this->getEdges())
+        for (const auto &vertex: this->vertices)
         {
-            if (other.contains(edge))
+            if (other.contains(vertex))
             {
-                intersectEdges.push_back(edge);
+                intersectVertices.push_back(vertex);
             }
         }
 
-        return intersectEdges;
+        return intersectVertices;
     }
 
-    std::vector<Edge> Polygon::differenceVertices(const Polygon &other) const
+    std::vector<Vertex> Polygon::differenceVertices(const Polygon &other) const
     {
-        auto differenceEdges = std::vector<Edge>();
+        auto differenceVertices = std::vector<Vertex>();
 
-        for (const auto &edge: this->getEdges())
+        for (const auto &vertex: this->vertices)
         {
-            if (!other.contains(edge))
+            if (!other.contains(vertex))
             {
-                differenceEdges.push_back(edge);
+                differenceVertices.push_back(vertex);
             }
         }
 
-        return differenceEdges;
+        return differenceVertices;
     }
 
-    std::vector<Edge> Polygon::symmetricDifferenceVertices(const Polygon &other) const
+    std::vector<Vertex> Polygon::symmetricDifferenceVertices(const Polygon &other) const
     {
-        auto symmetricDifferenceEdges = std::vector<Edge>();
+        auto symmetricDifferenceVertices = std::vector<Vertex>();
 
-        for (const auto &edge: this->getEdges())
+        for (const auto &vertex: this->vertices)
         {
-            if (!other.contains(edge))
+            if (!other.contains(vertex))
             {
-                symmetricDifferenceEdges.push_back(edge);
+                symmetricDifferenceVertices.push_back(vertex);
             }
         }
 
-        for (const auto &edge: other.getEdges())
+        for (const auto &vertex: other.vertices)
         {
-            if (!this->contains(edge))
+            if (!this->contains(vertex))
             {
-                symmetricDifferenceEdges.push_back(edge);
+                symmetricDifferenceVertices.push_back(vertex);
             }
         }
 
-        return symmetricDifferenceEdges;
+        return symmetricDifferenceVertices;
     }
 
     std::string Polygon::toString() const
