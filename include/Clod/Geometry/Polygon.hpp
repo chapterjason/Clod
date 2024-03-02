@@ -28,6 +28,8 @@ namespace Clod
 
         [[nodiscard]] std::vector<Edge> getEdges() const;
 
+        [[nodiscard]] bool areAdjacent(const int &indexA, const int &indexB) const;
+
         [[nodiscard]] bool contains(const Edge &other) const;
 
         [[nodiscard]] bool contains(const Vertex &other) const;
@@ -43,6 +45,8 @@ namespace Clod
         [[nodiscard]] std::vector<Vertex> intersectVertices(const Polygon &other) const;
 
         [[nodiscard]] std::vector<Vertex> differenceVertices(const Polygon &other) const;
+
+        [[nodiscard]] std::vector<Vertex> differenceVertices(const Polygon &other, const Edge &edge) const;
 
         [[nodiscard]] std::vector<Vertex> symmetricDifferenceVertices(const Polygon &other) const;
 

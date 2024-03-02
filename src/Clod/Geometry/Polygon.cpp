@@ -88,10 +88,7 @@ namespace Clod
         auto vertexBPosition = this->getVertexIndex(vertexB);
 
         // Check if vertices are adjacent, and if not, adjust based on their positions
-        bool areAdjacent = std::abs(vertexAPosition - vertexBPosition) == 1 ||
-                           std::abs(vertexAPosition - vertexBPosition) == this->vertices.size() - 1;
-
-        if (!areAdjacent)
+        if (!this->areAdjacent(vertexAPosition, vertexBPosition))
         {
             // If the edge vertices are not adjacent due to being in reverse order,
             if (vertexAPosition > vertexBPosition)
@@ -163,6 +160,12 @@ namespace Clod
         }
 
         return edges;
+    }
+
+    bool Polygon::areAdjacent(const int &indexA, const int &indexB) const
+    {
+        return std::abs(indexA - indexB) == 1 ||
+               std::abs(indexA - indexB) == this->vertices.size() - 1;
     }
 
     bool Polygon::contains(const Edge &other) const
@@ -287,6 +290,44 @@ namespace Clod
         auto differenceVertices = std::vector<Vertex>();
 
         for (const auto &vertex: this->vertices)
+        {
+            if (!other.contains(vertex))
+            {
+                differenceVertices.push_back(vertex);
+            }
+        }
+
+        return differenceVertices;
+    }
+
+    std::vector<Vertex> Polygon::differenceVertices(const Polygon &other, const Edge &edge) const
+    {
+        auto differenceVertices = std::vector<Vertex>();
+        // To remain ordered, we need to rotate "vertices" so that the edge vertices are at the beginning, depending on the edge vertex
+        auto vertices = this->vertices;
+
+        // Determine the correct position for the new vertex
+        auto vertexA = edge.a;
+        auto vertexB = edge.b;
+        auto vertexAPosition = this->getVertexIndex(vertexA);
+        auto vertexBPosition = this->getVertexIndex(vertexB);
+
+        // Check if vertices are adjacent, and if not, adjust based on their positions
+        if (!this->areAdjacent(vertexAPosition, vertexBPosition))
+        {
+            // If the edge vertices are not adjacent due to being in reverse order,
+            if (vertexAPosition > vertexBPosition)
+            {
+                std::swap(vertexA, vertexB);
+                std::swap(vertexAPosition, vertexBPosition);
+            }
+            // Additional handling can be implemented here if needed
+        }
+
+        std::rotate(vertices.begin(), vertices.begin() + vertexAPosition, vertices.end());
+
+        // Find the difference vertices
+        for (const auto &vertex: vertices)
         {
             if (!other.contains(vertex))
             {
