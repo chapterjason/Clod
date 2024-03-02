@@ -11,6 +11,9 @@ namespace Clod
     Polygon::Polygon(const std::vector<Vertex> &vertices)
         : vertices(vertices) {}
 
+    Polygon::Polygon()
+        : vertices() {}
+
     int Polygon::getVertexIndex(const Vertex &vertex) const
     {
         for (auto index = 0; index < this->vertices.size(); ++index)
@@ -26,6 +29,16 @@ namespace Clod
 
     void Polygon::addVertex(const Vertex &vertex)
     {
+        // If the polygon has less than 3 vertices, we can just add the vertex
+        // 1 - it is a point
+        // 2 - it is a line
+        // >=3 - it is a polygon
+        if(this->vertices.size() < 3)
+        {
+            this->vertices.push_back(vertex);
+            return;
+        }
+
         auto verticies = this->vertices;
 
         // rotate the vertices so that the longest distance is at the beginning
@@ -386,7 +399,8 @@ namespace Clod
 
         for (auto index = 0; index < this->vertices.size(); index++)
         {
-            area += (this->vertices[secondIndex].x + this->vertices[index].x) * (this->vertices[secondIndex].y - this->vertices[index].y);
+            area += (this->vertices[secondIndex].x + this->vertices[index].x) * (
+                this->vertices[secondIndex].y - this->vertices[index].y);
             secondIndex = index;
         }
 

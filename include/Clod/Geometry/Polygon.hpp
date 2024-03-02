@@ -17,7 +17,9 @@ namespace Clod
     {
         std::vector<Vertex> vertices;
 
-        explicit Polygon(const std::vector<Vertex> &vertices);
+        Polygon(const std::vector<Vertex> &vertices);
+
+        Polygon();
 
         [[nodiscard]] int getVertexIndex(const Vertex &vertex) const;
 
