@@ -1,6 +1,6 @@
 #include <Clod/Geometry/Chain.hpp>
 
-#include <ranges>
+#include <algorithm>
 
 namespace Clod
 {
