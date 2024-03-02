@@ -69,6 +69,11 @@ namespace Clod
 
         [[nodiscard]] float dot(const Vertex &other) const;
 
+        /**
+         * - 1: counterclockwise
+         * - 0: collinear
+         * - -1: clockwise
+         */
         [[nodiscard]] int crossSign(const Vertex& otherB, const Vertex& otherC) const;
 
         [[nodiscard]] sf::Angle angle(const Vertex &other) const;

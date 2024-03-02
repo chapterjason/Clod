@@ -20,7 +20,9 @@ namespace Clod
             std::vector<Vertex> &outVertices
         );
 
-        [[nodiscard]] std::vector<Vertex> simplifyCluster(float tolerance = 2.f) const;
+        void simplifyCluster(const float &tolerance = 2.f);
+
+        void simplifyConsecutiveVertices(const float &tolerance = 2.f);
 
         protected:
             std::vector<Vertex> vertices;

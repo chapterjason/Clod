@@ -31,12 +31,16 @@ namespace Clod
             // Searching for a vertex 'nextVertexIndex' such that orientation is
             // counterclockwise for all vertices 'x'. The idea is to keep track of last visited most counterclock-wise vertex in nextVertexIndex.
             nextVertexIndex = (currentVertexIndex + 1) % size;
-            for (auto i = 0; i < size; ++i)
+            for (auto index = 0; index < size; ++index)
             {
-                // If i is more counterclockwise than current nextVertexIndex, then update nextVertexIndex
-                if (vertices[currentVertexIndex].crossSign(vertices[i], vertices[nextVertexIndex]) == 1)
+                const auto orientation = vertices[currentVertexIndex].crossSign(vertices[index],
+                                                                                    vertices[nextVertexIndex]);
+                const auto distanceFromCurrent = vertices[currentVertexIndex].distance(vertices[index]);
+                const auto distanceFromNext = vertices[currentVertexIndex].distance(vertices[nextVertexIndex]);
+
+                if (orientation == 1 || (orientation == 0 && distanceFromCurrent > distanceFromNext))
                 {
-                    nextVertexIndex = i;
+                    nextVertexIndex = index;
                 }
             }
 

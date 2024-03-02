@@ -157,6 +157,11 @@ namespace Clod
         return this->x * other.x + this->y * other.y;
     }
 
+    /**
+     * - 1: counterclockwise
+     * - 0: collinear
+     * - -1: clockwise
+     */
     int Vertex::crossSign(const Vertex &otherB, const Vertex &otherC) const
     {
         const auto vectorAtoB = otherB - *this;

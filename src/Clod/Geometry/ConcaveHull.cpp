@@ -4,6 +4,7 @@
 #include <Clod/Algorithm/JarvisMarch.hpp>
 #include <Clod/Geometry/Polygon.hpp>
 #include <Clod/Graphic/Image.hpp>
+#include <Clod/Geometry/Cluster.hpp>
 
 namespace Clod
 {
@@ -41,14 +42,18 @@ namespace Clod
             auto maxIndex = -1;
             float maxDistance = 0.0;
 
-            for (auto i = start + 1; i < end; ++i)
+            for (auto index = start + 1; index < end; ++index)
             {
-                const auto distance = vertices[start].perpendicularDistance(vertices[end], vertices[i]);
+                const auto& startVertex = vertices[start];
+                const auto& endVertex = vertices[end];
+                const auto& currentVertex = vertices[index];
+
+                const auto distance = startVertex.perpendicularDistance(endVertex, currentVertex);
 
                 if (distance > maxDistance)
                 {
                     maxDistance = distance;
-                    maxIndex = i;
+                    maxIndex = index;
                 }
             }
 
@@ -71,55 +76,16 @@ namespace Clod
         }
     }
 
-    std::vector<Vertex> ConcaveHull::simplifyCluster(const float tolerance) const
+    void ConcaveHull::simplifyCluster(const float &tolerance)
     {
-        auto clusters = std::vector<Polygon>();
-        auto centroids = std::vector<Vertex>();
+        const auto clusters = Cluster::findClusters(this->vertices, tolerance);
 
-        // Start with the first vertex in a new cluster
-        for (auto &vertex: this->vertices)
-        {
-            auto foundCluster = false;
+        this->vertices.clear();
 
-            for (auto &cluster: clusters)
-            {
-                for (const auto &vertexInCluster: cluster.vertices)
-                {
-                    if (vertex.distance(vertexInCluster) <= tolerance)
-                    {
-                        cluster.vertices.push_back(vertex);
-                        foundCluster = true;
-                        break;
-                    }
-                }
-
-                if (foundCluster)
-                {
-                    break;
-                }
-            }
-
-            if (!foundCluster)
-            {
-                // Start a new cluster with this vertex
-                clusters.push_back(Polygon({vertex}));
-            }
-        }
-
-        // Calculate the centroid for each cluster
         for (const auto &cluster: clusters)
         {
-            if (cluster.size() == 1)
-            {
-                centroids.push_back(cluster.vertices[0]);
-            }
-            else
-            {
-                centroids.push_back(cluster.centroid());
-            }
+            this->vertices.push_back(cluster.centroid());
         }
-
-        return centroids;
     }
 
     int ConcaveHull::findBestIndexForInsertion(const Vertex &vertexToInsert) const
@@ -185,7 +151,7 @@ namespace Clod
 
         if (index != -1)
         {
-            this->vertices.insert(this->vertices.begin() + index, vertex);
+            this->vertices.insert(this->vertices.begin() + index + 1, vertex);
 
             return true;
         }
@@ -228,7 +194,8 @@ namespace Clod
         simplifySection(this->vertices, 0, static_cast<int>(this->vertices.size()) - 1, tolerance, simplifiedVertices);
 
         this->vertices = simplifiedVertices;
-        this->vertices = this->simplifyCluster(clusterTolerance);
+
+        this->simplifyCluster(clusterTolerance);
     }
 
     Polygon ConcaveHull::getPolygon() const

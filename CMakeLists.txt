@@ -68,6 +68,8 @@ add_library(${PROJECT_NAME} STATIC
         src/Clod/Geometry/Vertex.cpp
         include/Clod/Geometry/Chain.hpp
         src/Clod/Geometry/Chain.cpp
+        include/Clod/Geometry/Cluster.hpp
+        src/Clod/Geometry/Cluster.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
