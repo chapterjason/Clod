@@ -4,8 +4,7 @@
 #include <set>
 
 #include <Clod/Geometry/Polygon.hpp>
-
-#include "Chain.hpp"
+#include <Clod/Geometry/Chain.hpp>
 
 namespace Clod
 {
