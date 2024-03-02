@@ -72,6 +72,11 @@ namespace Clod
 
     void Polygon::insertVertex(const Vertex &vertex, const Edge &edge)
     {
+        this->insertVertices({vertex}, edge);
+    }
+
+    void Polygon::insertVertices(const std::vector<Vertex> &vertices, const Edge &edge)
+    {
         if (!this->contains(edge))
         {
             throw std::runtime_error("Polygon does not contain the edge");
@@ -107,8 +112,8 @@ namespace Clod
             insertPosition = vertexAPosition + 1; // Insert after vertexA if vertexB comes first
         }
 
-        // Insert the new vertex at the determined position
-        this->vertices.insert(this->vertices.begin() + insertPosition, vertex);
+        // Insert the new vertices at the determined position
+        this->vertices.insert(this->vertices.begin() + insertPosition, vertices.begin(), vertices.end());
     }
 
     bool Polygon::operator==(const Polygon &other) const

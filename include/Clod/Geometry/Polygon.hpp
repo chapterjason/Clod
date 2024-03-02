@@ -20,6 +20,8 @@ namespace Clod
 
         void insertVertex(const Vertex &vertex, const Edge &edge);
 
+        void insertVertices(const std::vector<Vertex> &vertices, const Edge &edge);
+
         bool operator==(const Polygon &other) const;
 
         bool operator!=(const Polygon &other) const;
