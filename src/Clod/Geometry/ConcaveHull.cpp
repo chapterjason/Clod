@@ -231,9 +231,9 @@ namespace Clod
         this->vertices = this->simplifyCluster(clusterTolerance);
     }
 
-    std::shared_ptr<Polygon> ConcaveHull::getPolygon() const
+    Polygon ConcaveHull::getPolygon() const
     {
-        return std::make_shared<Polygon>(this->vertices);
+        return this->vertices;
     }
 
     std::vector<Vertex> ConcaveHull::getVertices() const

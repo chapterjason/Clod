@@ -48,6 +48,6 @@ namespace Clod
 
             [[nodiscard]] std::vector<Vertex> getVertices() const;
 
-            [[nodiscard]] std::shared_ptr<Polygon> getPolygon() const;
+            [[nodiscard]] Polygon getPolygon() const;
     };
 }
