@@ -1,17 +1,17 @@
 #include <Clod/Algorithm/JarvisMarch.hpp>
 
-#include <Clod/Geometry/Position.hpp>
 #include <Clod/Geometry/Vertex.hpp>
 
 namespace Clod
 {
     std::vector<Vertex> JarvisMarch(const std::vector<Vertex> &vertices)
     {
-        const auto size = vertices.size();
+        const auto size = static_cast<int>(vertices.size());
 
         std::vector<Vertex> convexHull;
 
         auto leftmostIndex = 0;
+
         for (auto i = 1; i < size; ++i)
         {
             if (vertices[i].x < vertices[leftmostIndex].x)
@@ -20,8 +20,9 @@ namespace Clod
             }
         }
 
-        // Start from leftmost vertex, keep moving counterclockwise until reaching the start vertex again
-        auto currentVertexIndex = leftmostIndex, nextVertexIndex = 0;
+        auto currentVertexIndex = leftmostIndex;
+        auto nextVertexIndex = 0;
+
         do
         {
             // Add current vertex to result

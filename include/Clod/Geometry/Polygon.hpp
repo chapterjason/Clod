@@ -25,7 +25,7 @@ namespace Clod
 
         void insertVertex(const Vertex &vertex, const Edge &edge);
 
-        void insertVertices(const std::vector<Vertex> &vertices, const Edge &edge);
+        void insertVertices(const std::vector<Vertex> &others, const Edge &edge);
 
         bool operator==(const Polygon &other) const;
 
@@ -58,6 +58,10 @@ namespace Clod
         [[nodiscard]] std::string toString() const;
 
         [[nodiscard]] float area() const;
+
+        [[nodiscard]] int size() const;
+
+        [[nodiscard]] float perimeter() const;
 
         [[nodiscard]] Vertex centroid() const;
 

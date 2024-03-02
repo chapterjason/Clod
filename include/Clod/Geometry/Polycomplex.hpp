@@ -5,6 +5,8 @@
 
 #include <Clod/Geometry/Polygon.hpp>
 
+#include "Chain.hpp"
+
 namespace Clod
 {
     class Polycomplex : public std::vector<Polygon>
@@ -46,7 +48,7 @@ namespace Clod
 
             [[nodiscard]] std::vector<Edge> getEdges() const;
 
-            [[nodiscard]] std::vector<Edge> getOuterEdges() const;
+            [[nodiscard]] Chain getOuterEdges() const;
 
             [[nodiscard]] std::vector<Edge> getInnerEdges() const;
 

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <ranges>
 
 #include <Clod/Core/ResourceManager.hpp>
 
@@ -24,9 +25,9 @@ namespace Clod
     }
 
     template<typename T>
-    bool ResourceManager<T>::hasMapping(const std::string &name)
+    bool ResourceManager<T>::hasMapping(const std::string &name) const
     {
-        return fileMapping.find(name) != fileMapping.end();
+        return fileMapping.contains(name);
     }
 
     template<typename T>
@@ -38,7 +39,7 @@ namespace Clod
     template<typename T>
     bool ResourceManager<T>::has(const std::string &name)
     {
-        return this->resources.find(name) != this->resources.end();
+        return this->resources.contains(name);
     }
 
     template<typename T>
@@ -64,9 +65,9 @@ namespace Clod
     {
         std::vector<std::string> names;
 
-        for (const auto &pair: fileMapping)
+        for (const auto &key: std::views::keys(fileMapping))
         {
-            names.push_back(pair.first);
+            names.push_back(key);
         }
 
         for (const auto &pair: resources)
@@ -74,9 +75,9 @@ namespace Clod
             names.push_back(pair.first);
         }
 
-        std::sort(names.begin(), names.end());
+        std::ranges::sort(names);
 
-        names.erase(std::unique(names.begin(), names.end()), names.end());
+        names.erase(std::ranges::unique(names).begin(), names.end());
 
         return names;
     }

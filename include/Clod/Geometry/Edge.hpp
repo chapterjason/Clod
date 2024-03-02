@@ -1,7 +1,6 @@
 #pragma once
 
 #include <optional>
-#include <vector>
 #include <SFML/System.hpp>
 
 #include <Clod/Geometry/Vertex.hpp>
@@ -21,7 +20,7 @@ namespace Clod
 
         [[nodiscard]] bool contains(const Vertex &vertex) const;
 
-        [[nodiscard]] bool isInsideVector(const std::vector<Edge> &edges) const;
+        [[nodiscard]] float disruption(const Vertex &vertex) const;
 
         [[nodiscard]] float length() const;
 

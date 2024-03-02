@@ -38,17 +38,17 @@ namespace Clod
 
     Vertex Vertex::operator+(const Vertex &other) const
     {
-        return Vertex(this->x + other.x, this->y + other.y);
+        return {this->x + other.x, this->y + other.y};
     }
 
     Vertex Vertex::operator+(const sf::Vector2f &other) const
     {
-        return Vertex(this->x + other.x, this->y + other.y);
+        return {this->x + other.x, this->y + other.y};
     }
 
     Vertex Vertex::operator-(const sf::Vector2f &other) const
     {
-        return Vertex(this->x - other.x, this->y - other.y);
+        return {this->x - other.x, this->y - other.y};
     }
 
     Vertex &Vertex::operator+=(const sf::Vector2f &other)
@@ -69,17 +69,17 @@ namespace Clod
 
     Vertex Vertex::operator-(const Vertex &other) const
     {
-        return Vertex(this->x - other.x, this->y - other.y);
+        return {this->x - other.x, this->y - other.y};
     }
 
     Vertex Vertex::operator*(const float value) const
     {
-        return Vertex(this->x * value, this->y * value);
+        return {this->x * value, this->y * value};
     }
 
     Vertex Vertex::operator/(const float value) const
     {
-        return Vertex(this->x / value, this->y / value);
+        return {this->x / value, this->y / value};
     }
 
     Vertex &Vertex::operator+=(const Vertex &other)
@@ -183,11 +183,11 @@ namespace Clod
 
     Vertex Vertex::toMeter() const
     {
-        return Vertex(this->x * SCALE_TO_METER, this->y * SCALE_TO_METER);
+        return {this->x * SCALE_TO_METER, this->y * SCALE_TO_METER};
     }
 
     Vertex Vertex::toPixel() const
     {
-        return Vertex(this->x * SCALE_TO_PIXEL, this->y * SCALE_TO_PIXEL);
+        return {this->x * SCALE_TO_PIXEL, this->y * SCALE_TO_PIXEL};
     }
 }

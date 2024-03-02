@@ -1,6 +1,4 @@
 #include <Clod/Geometry/Edge.hpp>
-#include <algorithm>
-#include <Clod/Geometry/Position.hpp>
 #include <Clod/Geometry/Vertex.hpp>
 
 namespace Clod
@@ -31,12 +29,13 @@ namespace Clod
         return this->a == vertex || this->b == vertex;
     }
 
-    bool Edge::isInsideVector(const std::vector<Edge> &edges) const
+    float Edge::disruption(const Vertex &vertex) const
     {
-        return std::any_of(edges.begin(), edges.end(), [this](const Edge &edge)
-        {
-            return edge == *this;
-        });
+        const auto dAB = this->a.distance(this->b);
+        const auto dAP = this->a.distance(vertex);
+        const auto dPB = vertex.distance(this->b);
+
+        return dAP + dPB - dAB;
     }
 
     float Edge::length() const

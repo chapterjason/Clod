@@ -11,9 +11,9 @@ namespace Clod
         // Add a vertex to the list if it doesn't already exist
         void addVertex(std::vector<Vertex> &vertices, const int x, const int y)
         {
-            auto vertex = Vertex(x, y);
+            const auto vertex = Vertex(x, y);
 
-            if (std::find(vertices.begin(), vertices.end(), vertex) == vertices.end())
+            if (std::ranges::find(vertices, vertex) == vertices.end())
             {
                 vertices.push_back(vertex);
             }
@@ -49,7 +49,7 @@ namespace Clod
 
                     for (auto nx = x + 1; nx < width; nx++)
                     {
-                        auto npx = image->getPixel(sf::Vector2u(nx, y));
+                        const auto npx = image->getPixel(sf::Vector2u(nx, y));
 
                         if (npx.a > alphaTolerance)
                         {
@@ -89,7 +89,7 @@ namespace Clod
 
                     for (auto ny = y + 1; ny < height; ny++)
                     {
-                        auto npy = image->getPixel(sf::Vector2u(x, ny));
+                        const auto npy = image->getPixel(sf::Vector2u(x, ny));
 
                         if (npy.a > alphaTolerance)
                         {

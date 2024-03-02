@@ -21,7 +21,7 @@ namespace Clod
 
             void setMapping(const std::string &name, const std::filesystem::path &filePath);
 
-            bool hasMapping(const std::string &name);
+            [[nodiscard]] bool hasMapping(const std::string &name) const;
 
             std::filesystem::path getFileName(const std::string &name);
 

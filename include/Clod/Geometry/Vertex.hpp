@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include <SFML/System.hpp>
 #include <box2d/box2d.h>
 
@@ -11,19 +9,19 @@ namespace Clod
     {
         float x{}, y{};
 
-        explicit Vertex(float x = 0.f, float y = 0.f);
+        Vertex(float x = 0.f, float y = 0.f); // NOLINT(*-explicit-constructor)
 
-        explicit Vertex(int x, int y);
+        Vertex(int x, int y);
 
-        explicit Vertex(unsigned x, unsigned y);
+        Vertex(unsigned x, unsigned y);
 
-        explicit Vertex(const sf::Vector2f &vector);
+        Vertex(const sf::Vector2f &vector); // NOLINT(*-explicit-constructor)
 
-        explicit Vertex(const sf::Vector2i &vector);
+        Vertex(const sf::Vector2i &vector); // NOLINT(*-explicit-constructor)
 
-        explicit Vertex(const sf::Vector2u &vector);
+        Vertex(const sf::Vector2u &vector); // NOLINT(*-explicit-constructor)
 
-        explicit Vertex(const b2Vec2 &vector);
+        Vertex(const b2Vec2 &vector); // NOLINT(*-explicit-constructor)
 
         Vertex(const Vertex &vertex);
 
@@ -55,9 +53,9 @@ namespace Clod
 
         Vertex &operator/=(float value);
 
-        operator sf::Vector2f() const;
+        operator sf::Vector2f() const; // NOLINT(*-explicit-constructor)
 
-        operator b2Vec2() const;
+        operator b2Vec2() const; // NOLINT(*-explicit-constructor)
 
         [[nodiscard]] float distance(const Vertex &other) const;
 

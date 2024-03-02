@@ -1,10 +1,8 @@
 #include <algorithm>
 
 #include <Clod/Geometry/ConcaveHull.hpp>
-#include <Clod/Geometry/Position.hpp>
 #include <Clod/Algorithm/JarvisMarch.hpp>
 #include <Clod/Geometry/Polygon.hpp>
-#include <Clod/Geometry/Polycomplex.hpp>
 #include <Clod/Graphic/Image.hpp>
 
 namespace Clod
@@ -16,7 +14,7 @@ namespace Clod
 
         for (const auto &vertex: this->vertices)
         {
-            if (std::find(convex.begin(), convex.end(), vertex) == convex.end())
+            if (std::ranges::find(convex, vertex) == convex.end())
             {
                 interiorVertices.push_back(vertex);
             }
@@ -63,7 +61,7 @@ namespace Clod
             else
             {
                 // If no vertex is found with the distance greater than tolerance, add the endvertex
-                if (std::find(outVertices.begin(), outVertices.end(), vertices[start]) == outVertices.end())
+                if (std::ranges::find(outVertices, vertices[start]) == outVertices.end())
                 {
                     outVertices.push_back(vertices[start]);
                 }
@@ -75,7 +73,7 @@ namespace Clod
 
     std::vector<Vertex> ConcaveHull::simplifyCluster(const float tolerance) const
     {
-        auto clusters = std::vector<std::vector<Vertex>>();
+        auto clusters = std::vector<Polygon>();
         auto centroids = std::vector<Vertex>();
 
         // Start with the first vertex in a new cluster
@@ -85,11 +83,11 @@ namespace Clod
 
             for (auto &cluster: clusters)
             {
-                for (const auto &vertexInCluster: cluster)
+                for (const auto &vertexInCluster: cluster.vertices)
                 {
                     if (vertex.distance(vertexInCluster) <= tolerance)
                     {
-                        cluster.push_back(vertex);
+                        cluster.vertices.push_back(vertex);
                         foundCluster = true;
                         break;
                     }
@@ -104,7 +102,7 @@ namespace Clod
             if (!foundCluster)
             {
                 // Start a new cluster with this vertex
-                clusters.push_back({vertex});
+                clusters.push_back(Polygon({vertex}));
             }
         }
 
@@ -113,11 +111,11 @@ namespace Clod
         {
             if (cluster.size() == 1)
             {
-                centroids.push_back(cluster[0]);
+                centroids.push_back(cluster.vertices[0]);
             }
             else
             {
-                centroids.push_back(centroid(cluster));
+                centroids.push_back(cluster.centroid());
             }
         }
 
@@ -131,10 +129,11 @@ namespace Clod
 
         for (auto index = 0; index < this->vertices.size(); ++index)
         {
-            auto distance = vertexToInsert.distance(this->vertices[index]);
+            const auto distance = vertexToInsert.distance(this->vertices[index]);
 
             if (distance > longestDistance)
             {
+                longestDistance = distance;
                 longestDistanceIndex = index;
             }
         }
@@ -142,24 +141,25 @@ namespace Clod
         auto vertices = this->vertices;
 
         // Rotate the vertices so that the longest distance is at the beginning
-        std::rotate(vertices.begin(), vertices.begin() + longestDistanceIndex, vertices.end());
+        std::ranges::rotate(vertices, vertices.begin() + longestDistanceIndex);
 
         // find best edge with lowest disruption in distance and angle
         // distance is weighted more than angle
         auto bestEdgeIndex = -1;
         auto minDisruption = std::numeric_limits<float>::max();
 
-        for (auto i = 0; i < vertices.size(); ++i)
+        for (auto index = 0; index < vertices.size(); ++index)
         {
-            auto currentVertex = vertices[i];
-            auto nextVertex = vertices[(i + 1) % vertices.size()];
+            auto currentVertex = vertices[index];
+            auto nextVertex = vertices[(index + 1) % vertices.size()];
+            auto edge = Edge(currentVertex, nextVertex);
 
-            auto disruption = Clod::disruption(currentVertex, nextVertex, vertexToInsert);
+            const auto disruption = edge.disruption(vertexToInsert);
 
             if (disruption < minDisruption)
             {
                 minDisruption = disruption;
-                bestEdgeIndex = i;
+                bestEdgeIndex = index;
             }
         }
 
@@ -215,9 +215,7 @@ namespace Clod
 
     void ConcaveHull::removeVertex(const Vertex &vertex)
     {
-        const auto index = std::find(this->vertices.begin(), this->vertices.end(), vertex);
-
-        this->vertices.erase(index);
+        this->vertices.erase(std::ranges::find(this->vertices, vertex));
     }
 
     void ConcaveHull::simplify(

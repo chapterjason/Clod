@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 project(Clod VERSION 0.1.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 include(FetchContent)
 
@@ -26,9 +26,7 @@ FetchContent_MakeAvailable(SFML)
 FetchContent_MakeAvailable(Box2D)
 
 add_library(${PROJECT_NAME} STATIC
-        include/Clod/Geometry/Position.hpp
         include/Clod/Geometry/Bridge.hpp
-        src/Clod/Geometry/Position.cpp
         src/Clod/Geometry/Bridge.cpp
         include/Clod/Geometry.hpp
         include/Clod/System/Time.hpp
@@ -68,6 +66,7 @@ add_library(${PROJECT_NAME} STATIC
         src/Clod/Geometry/Polycomplex.cpp
         include/Clod/Geometry/Vertex.hpp
         src/Clod/Geometry/Vertex.cpp
+        include/Clod/Geometry/Chain.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")

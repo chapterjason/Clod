@@ -2,7 +2,6 @@
 #include <any>
 #include <cmath>
 #include <Clod/Geometry/Polygon.hpp>
-#include <Clod/Geometry/Position.hpp>
 #include <CDT.h>
 
 #include <Clod/Geometry/Polycomplex.hpp>
@@ -36,15 +35,16 @@ namespace Clod
 
             for (auto index = 0; index < this->vertices.size(); ++index)
             {
-                auto distance = vertex.distance(this->vertices[index]);
+                const auto distance = vertex.distance(this->vertices[index]);
 
                 if (distance > longestDistance)
                 {
+                    longestDistance = distance;
                     longestDistanceIndex = index;
                 }
             }
 
-            std::rotate(verticies.begin(), verticies.begin() + longestDistanceIndex, verticies.end());
+            std::ranges::rotate(verticies, verticies.begin() + longestDistanceIndex);
         }
 
         // find best insertion vertex with lowest disruption
@@ -55,8 +55,9 @@ namespace Clod
         {
             auto currentVertex = verticies[i];
             auto nextVertex = verticies[(i + 1) % verticies.size()];
+            auto edge = Edge(currentVertex, nextVertex);
 
-            auto disruption = Clod::disruption(currentVertex, nextVertex, vertex);
+            const auto disruption = edge.disruption(vertex);
 
             if (disruption < minDisruption)
             {
@@ -78,7 +79,7 @@ namespace Clod
         this->insertVertices({vertex}, edge);
     }
 
-    void Polygon::insertVertices(const std::vector<Vertex> &vertices, const Edge &edge)
+    void Polygon::insertVertices(const std::vector<Vertex> &others, const Edge &edge)
     {
         if (!this->contains(edge))
         {
@@ -103,7 +104,7 @@ namespace Clod
         }
 
         // Determine the correct position for the new vertex
-        auto insertPosition = 0;
+        int insertPosition;
 
         // Ensure we insert the vertex in a position that maintains the polygon's integrity
         if (vertexAPosition < vertexBPosition)
@@ -116,13 +117,13 @@ namespace Clod
         }
 
         // Insert the new vertices at the determined position
-        this->vertices.insert(this->vertices.begin() + insertPosition, vertices.begin(), vertices.end());
+        this->vertices.insert(this->vertices.begin() + insertPosition, others.begin(), others.end());
     }
 
     bool Polygon::operator==(const Polygon &other) const
     {
         // If the number of vertices is different, the polygons are different
-        if (vertices.size() != other.vertices.size())
+        if (this->vertices.size() != other.vertices.size())
         {
             return false;
         }
@@ -130,9 +131,9 @@ namespace Clod
         auto equal = true;
 
         // If any of the vertices are different, the polygons are different
-        for (auto index = 0; index < vertices.size(); ++index)
+        for (auto index = 0; index < this->vertices.size(); ++index)
         {
-            const auto &vertex = vertices[index];
+            const auto &vertex = this->vertices[index];
             const auto &otherVertex = other.vertices[index];
 
             if (vertex != otherVertex)
@@ -154,10 +155,10 @@ namespace Clod
     {
         auto edges = std::vector<Edge>();
 
-        for (auto index = 0; index < vertices.size(); ++index)
+        for (auto index = 0; index < this->vertices.size(); ++index)
         {
-            const auto &vertex = vertices[index];
-            const auto &nextVertex = vertices[(index + 1) % vertices.size()];
+            const auto &vertex = this->vertices[index];
+            const auto &nextVertex = this->vertices[(index + 1) % this->vertices.size()];
 
             edges.emplace_back(vertex, nextVertex);
         }
@@ -175,7 +176,7 @@ namespace Clod
     {
         auto edges = this->getEdges();
 
-        return std::any_of(edges.begin(), edges.end(), [other](const Edge &edge)
+        return std::ranges::any_of(edges, [other](const Edge &edge)
         {
             return edge == other;
         });
@@ -183,7 +184,7 @@ namespace Clod
 
     bool Polygon::contains(const Vertex &other) const
     {
-        return std::any_of(vertices.begin(), vertices.end(), [other](const Vertex &vertex)
+        return std::ranges::any_of(this->vertices, [other](const Vertex &vertex)
         {
             return vertex == other;
         });
@@ -307,7 +308,7 @@ namespace Clod
     {
         auto differenceVertices = std::vector<Vertex>();
         // To remain ordered, we need to rotate "vertices" so that the edge vertices are at the beginning, depending on the edge vertex
-        auto vertices = this->vertices;
+        auto copiedVertices = this->vertices;
 
         // Determine the correct position for the new vertex
         auto vertexA = edge.a;
@@ -327,10 +328,10 @@ namespace Clod
             // Additional handling can be implemented here if needed
         }
 
-        std::rotate(vertices.begin(), vertices.begin() + vertexAPosition, vertices.end());
+        std::ranges::rotate(copiedVertices, copiedVertices.begin() + vertexAPosition);
 
         // Find the difference vertices
-        for (const auto &vertex: vertices)
+        for (const auto &vertex: copiedVertices)
         {
             if (!other.contains(vertex))
             {
@@ -381,15 +382,32 @@ namespace Clod
     float Polygon::area() const
     {
         auto area = 0.f;
-        auto secondIndex = vertices.size() - 1;
+        auto secondIndex = this->vertices.size() - 1;
 
-        for (auto index = 0; index < vertices.size(); index++)
+        for (auto index = 0; index < this->vertices.size(); index++)
         {
-            area += (vertices[secondIndex].x + vertices[index].x) * (vertices[secondIndex].y - vertices[index].y);
+            area += (this->vertices[secondIndex].x + this->vertices[index].x) * (this->vertices[secondIndex].y - this->vertices[index].y);
             secondIndex = index;
         }
 
         return std::fabs(area / 2.f);
+    }
+
+    int Polygon::size() const
+    {
+        return static_cast<int>(this->vertices.size());
+    }
+
+    float Polygon::perimeter() const
+    {
+        auto perimeter = 0.f;
+
+        for (const auto &edge: this->getEdges())
+        {
+            perimeter += edge.length();
+        }
+
+        return perimeter;
     }
 
     Vertex Polygon::centroid() const
@@ -435,9 +453,9 @@ namespace Clod
             auto c = cdt.vertices[cdtTriangle.vertices[2]];
 
             polygons.push_back(Polygon({
-                                           Vertex(a.x, a.y),
-                                           Vertex(b.x, b.y),
-                                           Vertex(c.x, c.y)
+                                           {a.x, a.y},
+                                           {b.x, b.y},
+                                           {c.x, c.y}
                                        }));
         }
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-
 #include <SFML/Graphics.hpp>
 
 #include <Clod/Geometry/Vertex.hpp>
@@ -31,7 +30,7 @@ namespace Clod
         public:
             explicit ConcaveHull(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance = 5);
 
-            explicit ConcaveHull(const std::vector<Vertex> &vertexs);
+            explicit ConcaveHull(const std::vector<Vertex> &vertices);
 
             void simplify(float tolerance = 2.f, float clusterTolerance = 5.f);
 

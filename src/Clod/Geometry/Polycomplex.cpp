@@ -22,12 +22,12 @@ namespace Clod
 
     void Polycomplex::remove(const Polygon &other)
     {
-        this->erase(std::remove(this->begin(), this->end(), other), this->end());
+        this->erase(std::ranges::remove(*this, other).begin(), this->end());
     }
 
     bool Polycomplex::contains(const Polygon &other) const
     {
-        return std::any_of(this->begin(), this->end(), [other](const Polygon &polygon)
+        return std::ranges::any_of(*this, [other](const Polygon &polygon)
         {
             return polygon == other;
         });
@@ -37,7 +37,7 @@ namespace Clod
     {
         const auto edges = this->getEdges();
 
-        return std::any_of(edges.begin(), edges.end(), [other](const Edge &edge)
+        return std::ranges::any_of(edges, [other](const Edge &edge)
         {
             return edge == other;
         });
@@ -47,7 +47,7 @@ namespace Clod
     {
         const auto vertices = this->getVertices();
 
-        return std::any_of(vertices.begin(), vertices.end(), [other](const Vertex &vertex)
+        return std::ranges::any_of(vertices, [other](const Vertex &vertex)
         {
             return vertex == other;
         });
@@ -228,7 +228,7 @@ namespace Clod
 
     std::vector<Edge> Polycomplex::getEdges() const
     {
-        auto edges = std::vector<Edge>();
+        auto edges = Chain();
 
         for (const auto &polygon: *this)
         {
@@ -237,10 +237,7 @@ namespace Clod
             for (const auto &edge: polygonEdges)
             {
                 // prevent duplicates
-                if (std::any_of(edges.begin(), edges.end(), [edge](const Edge &other)
-                {
-                    return edge == other;
-                }))
+                if (edges.contains(edge))
                 {
                     continue;
                 }
@@ -252,9 +249,9 @@ namespace Clod
         return edges;
     }
 
-    std::vector<Edge> Polycomplex::getOuterEdges() const
+    Chain Polycomplex::getOuterEdges() const
     {
-        auto outerEdges = std::vector<Edge>();
+        auto chain = Chain();
 
         for (const auto &edge: this->getEdges())
         {
@@ -263,25 +260,25 @@ namespace Clod
 
             if (aIndex == bIndex + 1 || aIndex == bIndex - 1)
             {
-                outerEdges.push_back(edge);
+                chain.push_back(edge);
             }
         }
 
         // Close the hull
-        outerEdges.emplace_back(this->outerVertices.back(), this->outerVertices.front());
+        chain.emplace_back(this->outerVertices.back(), this->outerVertices.front());
 
-        return outerEdges;
+        return chain;
     }
 
     std::vector<Edge> Polycomplex::getInnerEdges() const
     {
         auto innerEdges = std::vector<Edge>();
 
-        const auto outerEdges = this->getOuterEdges();
+        const auto outerChain = this->getOuterEdges();
 
         for (const auto &edge: this->getEdges())
         {
-            if (!edge.isInsideVector(outerEdges))
+            if (!outerChain.contains(edge))
             {
                 innerEdges.push_back(edge);
             }
