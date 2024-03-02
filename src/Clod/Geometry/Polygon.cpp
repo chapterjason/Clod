@@ -88,7 +88,10 @@ namespace Clod
         auto vertexBPosition = this->getVertexIndex(vertexB);
 
         // Check if vertices are adjacent, and if not, adjust based on their positions
-        if (std::abs(vertexAPosition - vertexBPosition) != 1)
+        bool areAdjacent = std::abs(vertexAPosition - vertexBPosition) == 1 ||
+                           std::abs(vertexAPosition - vertexBPosition) == this->vertices.size() - 1;
+
+        if (!areAdjacent)
         {
             // If the edge vertices are not adjacent due to being in reverse order,
             if (vertexAPosition > vertexBPosition)
