@@ -1,7 +1,7 @@
 #include <Clod/Geometry/Position.hpp>
 #include <cmath>
 
-#include "Clod/Geometry/Vertex.hpp"
+#include <Clod/Geometry/Vertex.hpp>
 
 namespace Clod
 {

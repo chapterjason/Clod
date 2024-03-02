@@ -1,8 +1,7 @@
 #include <Clod/Geometry/Edge.hpp>
 #include <algorithm>
-
-#include "Clod/Geometry/Position.hpp"
-#include "Clod/Geometry/Vertex.hpp"
+#include <Clod/Geometry/Position.hpp>
+#include <Clod/Geometry/Vertex.hpp>
 
 namespace Clod
 {

@@ -6,6 +6,11 @@
 #include <Clod/Geometry/Vertex.hpp>
 #include <Clod/Geometry/Edge.hpp>
 
+// Forward declaration
+namespace Clod {
+    class Polycomplex;
+}
+
 namespace Clod
 {
     struct Polygon
@@ -55,5 +60,7 @@ namespace Clod
         [[nodiscard]] float area() const;
 
         [[nodiscard]] Vertex centroid() const;
+
+        [[nodiscard]] std::shared_ptr<Polycomplex> triangulate() const;
     };
 }

@@ -7,14 +7,14 @@
 
 namespace Clod
 {
-    class CompositePolygon : public std::vector<Polygon>
+    class Polycomplex : public std::vector<Polygon>
     {
         std::vector<Vertex> outerVertices;
 
         [[nodiscard]] int getOuterVertexIndex(const Vertex &vertex) const;
 
         public:
-            CompositePolygon(const vector &polygons, const std::vector<Vertex> &outerVertices);
+            Polycomplex(const vector &polygons, const std::vector<Vertex> &outerVertices);
 
             void remove(const Polygon &other);
 

@@ -1,6 +1,5 @@
 #include <Clod/Geometry/Vertex.hpp>
-
-#include "Clod/Geometry/Bridge.hpp"
+#include <Clod/Geometry/Bridge.hpp>
 
 namespace Clod
 {
@@ -52,7 +51,7 @@ namespace Clod
         return Vertex(this->x - other.x, this->y - other.y);
     }
 
-    Vertex & Vertex::operator+=(const sf::Vector2f &other)
+    Vertex &Vertex::operator+=(const sf::Vector2f &other)
     {
         this->x += other.x;
         this->y += other.y;
@@ -60,7 +59,7 @@ namespace Clod
         return *this;
     }
 
-    Vertex & Vertex::operator-=(const sf::Vector2f &other)
+    Vertex &Vertex::operator-=(const sf::Vector2f &other)
     {
         this->x -= other.x;
         this->y -= other.y;
@@ -160,7 +159,7 @@ namespace Clod
 
     int Vertex::crossSign(const Vertex &otherB, const Vertex &otherC) const
     {
-        const auto vectorAtoB  = otherB - *this;
+        const auto vectorAtoB = otherB - *this;
         const auto vectorBtoC = otherC - otherB;
         const auto crossProduct = vectorAtoB.cross(vectorBtoC);
 

@@ -1,9 +1,9 @@
 #include <algorithm>
-#include <Clod/Geometry/CompositePolygon.hpp>
+#include <Clod/Geometry/Polycomplex.hpp>
 
 namespace Clod
 {
-    int CompositePolygon::getOuterVertexIndex(const Vertex &vertex) const
+    int Polycomplex::getOuterVertexIndex(const Vertex &vertex) const
     {
         for (auto index = 0; index < this->outerVertices.size(); ++index)
         {
@@ -16,16 +16,16 @@ namespace Clod
         throw std::runtime_error("This should not happen");
     }
 
-    CompositePolygon::CompositePolygon(const vector &polygons, const std::vector<Vertex> &outerVertices)
+    Polycomplex::Polycomplex(const vector &polygons, const std::vector<Vertex> &outerVertices)
         : vector(polygons),
           outerVertices(outerVertices) {}
 
-    void CompositePolygon::remove(const Polygon &other)
+    void Polycomplex::remove(const Polygon &other)
     {
         this->erase(std::remove(this->begin(), this->end(), other), this->end());
     }
 
-    bool CompositePolygon::contains(const Polygon &other) const
+    bool Polycomplex::contains(const Polygon &other) const
     {
         return std::any_of(this->begin(), this->end(), [other](const Polygon &polygon)
         {
@@ -33,7 +33,7 @@ namespace Clod
         });
     }
 
-    bool CompositePolygon::contains(const Edge &other) const
+    bool Polycomplex::contains(const Edge &other) const
     {
         const auto edges = this->getEdges();
 
@@ -43,7 +43,7 @@ namespace Clod
         });
     }
 
-    bool CompositePolygon::contains(const Vertex &other) const
+    bool Polycomplex::contains(const Vertex &other) const
     {
         const auto vertices = this->getVertices();
 
@@ -53,7 +53,7 @@ namespace Clod
         });
     }
 
-    std::vector<Polygon> CompositePolygon::pick(const std::vector<int> &indices) const
+    std::vector<Polygon> Polycomplex::pick(const std::vector<int> &indices) const
     {
         auto polygons = std::vector<Polygon>();
 
@@ -65,17 +65,17 @@ namespace Clod
         return polygons;
     }
 
-    std::vector<Polygon> CompositePolygon::pick(const std::set<int> &indices) const
+    std::vector<Polygon> Polycomplex::pick(const std::set<int> &indices) const
     {
         return this->pick(std::vector(indices.begin(), indices.end()));
     }
 
-    std::vector<Vertex> CompositePolygon::getVertices() const
+    std::vector<Vertex> Polycomplex::getVertices() const
     {
         return this->outerVertices;
     }
 
-    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Polygon &other) const
+    std::vector<Polygon> Polycomplex::findAdjacentPolygons(const Polygon &other) const
     {
         // get all edges of the polygon and return all polygons which shares the same edge
         auto otherEdges = other.getEdges();
@@ -107,7 +107,7 @@ namespace Clod
         return this->pick(adjacentPolygonIndexes);
     }
 
-    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Edge &other) const
+    std::vector<Polygon> Polycomplex::findAdjacentPolygons(const Edge &other) const
     {
         auto adjacentPolygonIndices = std::set<int>();
 
@@ -124,7 +124,7 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
-    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Edge &edgeA, const Edge &edgeB) const
+    std::vector<Polygon> Polycomplex::findAdjacentPolygons(const Edge &edgeA, const Edge &edgeB) const
     {
         auto adjacentPolygonIndices = std::set<int>();
 
@@ -141,7 +141,7 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
-    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(
+    std::vector<Polygon> Polycomplex::findAdjacentPolygons(
         const Edge &edgeA,
         const Edge &edgeB,
         const Edge &edgeC
@@ -162,7 +162,7 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
-    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Vertex &other) const
+    std::vector<Polygon> Polycomplex::findAdjacentPolygons(const Vertex &other) const
     {
         auto adjacentPolygonIndices = std::set<int>();
 
@@ -182,7 +182,7 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
-    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(const Vertex &vertexA, const Vertex &vertexB) const
+    std::vector<Polygon> Polycomplex::findAdjacentPolygons(const Vertex &vertexA, const Vertex &vertexB) const
     {
         auto adjacentPolygonIndices = std::set<int>();
 
@@ -202,7 +202,7 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
-    std::vector<Polygon> CompositePolygon::findAdjacentPolygons(
+    std::vector<Polygon> Polycomplex::findAdjacentPolygons(
         const Vertex &vertexA,
         const Vertex &vertexB,
         const Vertex &vertexC
@@ -226,7 +226,7 @@ namespace Clod
         return this->pick(adjacentPolygonIndices);
     }
 
-    std::vector<Edge> CompositePolygon::getEdges() const
+    std::vector<Edge> Polycomplex::getEdges() const
     {
         auto edges = std::vector<Edge>();
 
@@ -252,7 +252,7 @@ namespace Clod
         return edges;
     }
 
-    std::vector<Edge> CompositePolygon::getOuterEdges() const
+    std::vector<Edge> Polycomplex::getOuterEdges() const
     {
         auto outerEdges = std::vector<Edge>();
 
@@ -273,7 +273,7 @@ namespace Clod
         return outerEdges;
     }
 
-    std::vector<Edge> CompositePolygon::getInnerEdges() const
+    std::vector<Edge> Polycomplex::getInnerEdges() const
     {
         auto innerEdges = std::vector<Edge>();
 
@@ -290,7 +290,7 @@ namespace Clod
         return innerEdges;
     }
 
-    std::vector<Edge> CompositePolygon::getAdjacentEdges(const Edge &other) const
+    std::vector<Edge> Polycomplex::getAdjacentEdges(const Edge &other) const
     {
         const auto vertexA = other.a;
         const auto vertexB = other.b;
@@ -314,7 +314,7 @@ namespace Clod
         return adjacentEdges;
     }
 
-    std::vector<Edge> CompositePolygon::getAdjacentEdges(const Vertex &vertex) const
+    std::vector<Edge> Polycomplex::getAdjacentEdges(const Vertex &vertex) const
     {
         auto adjacentEdges = std::vector<Edge>();
 
@@ -329,7 +329,7 @@ namespace Clod
         return adjacentEdges;
     }
 
-    std::vector<Edge> CompositePolygon::getAdjacentEdges(const Edge &other, const Vertex &vertex) const
+    std::vector<Edge> Polycomplex::getAdjacentEdges(const Edge &other, const Vertex &vertex) const
     {
         auto adjacentEdges = std::vector<Edge>();
 
@@ -349,7 +349,7 @@ namespace Clod
         return adjacentEdges;
     }
 
-    float CompositePolygon::area() const
+    float Polycomplex::area() const
     {
         auto area = 0.f;
 
@@ -361,7 +361,7 @@ namespace Clod
         return area;
     }
 
-    Vertex CompositePolygon::centroid() const
+    Vertex Polycomplex::centroid() const
     {
         auto centroid = Vertex();
 

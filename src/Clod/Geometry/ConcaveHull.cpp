@@ -1,12 +1,11 @@
 #include <algorithm>
+
 #include <Clod/Geometry/ConcaveHull.hpp>
 #include <Clod/Geometry/Position.hpp>
-#include <CDT.h>
-
-#include "Clod/Algorithm/JarvisMarch.hpp"
-#include "Clod/Geometry/Polygon.hpp"
-#include "Clod/Geometry/CompositePolygon.hpp"
-#include "Clod/Graphic/Image.hpp"
+#include <Clod/Algorithm/JarvisMarch.hpp>
+#include <Clod/Geometry/Polygon.hpp>
+#include <Clod/Geometry/Polycomplex.hpp>
+#include <Clod/Graphic/Image.hpp>
 
 namespace Clod
 {
@@ -234,45 +233,9 @@ namespace Clod
         this->vertices = this->simplifyCluster(clusterTolerance);
     }
 
-    std::shared_ptr<CompositePolygon> ConcaveHull::getPolygon()
+    std::shared_ptr<Polygon> ConcaveHull::getPolygon() const
     {
-        std::vector<Polygon> polygons;
-        CDT::Triangulation<float> cdt;
-        std::vector<CDT::V2d<float>> cdtVertices;
-        std::vector<CDT::Edge> edges;
-
-        auto index = 0;
-        for (const auto &vertex: vertices)
-        {
-            cdtVertices.push_back({vertex.x, vertex.y});
-
-            CDT::Edge edge(index, (index + 1) % vertices.size());
-
-            edges.push_back(edge);
-
-            index++;
-        }
-
-        cdt.insertVertices(cdtVertices);
-        cdt.insertEdges(edges);
-        cdt.eraseOuterTriangles();
-
-        auto cdtTriangles = cdt.triangles;
-
-        for (const auto &cdtTriangle: cdt.triangles)
-        {
-            auto a = cdt.vertices[cdtTriangle.vertices[0]];
-            auto b = cdt.vertices[cdtTriangle.vertices[1]];
-            auto c = cdt.vertices[cdtTriangle.vertices[2]];
-
-            polygons.push_back(Polygon({
-                                                 Vertex(a.x, a.y),
-                                                 Vertex(b.x, b.y),
-                                                 Vertex(c.x, c.y)
-                                             }));
-        }
-
-        return std::make_shared<CompositePolygon>(polygons, this->vertices);
+        return std::make_shared<Polygon>(this->vertices);
     }
 
     std::vector<Vertex> ConcaveHull::getVertices() const

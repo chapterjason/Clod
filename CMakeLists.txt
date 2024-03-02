@@ -64,8 +64,8 @@ add_library(${PROJECT_NAME} STATIC
         src/Clod/Geometry/Edge.cpp
         include/Clod/Geometry/Polygon.hpp
         src/Clod/Geometry/Polygon.cpp
-        include/Clod/Geometry/CompositePolygon.hpp
-        src/Clod/Geometry/CompositePolygon.cpp
+        include/Clod/Geometry/Polycomplex.hpp
+        src/Clod/Geometry/Polycomplex.cpp
         include/Clod/Geometry/Vertex.hpp
         src/Clod/Geometry/Vertex.cpp
 )

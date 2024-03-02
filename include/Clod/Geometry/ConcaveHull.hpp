@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <Clod/Geometry/Vertex.hpp>
-#include <Clod/Geometry/CompositePolygon.hpp>
+#include <Clod/Geometry/Polycomplex.hpp>
 
 namespace Clod
 {
@@ -49,6 +49,6 @@ namespace Clod
 
             [[nodiscard]] std::vector<Vertex> getVertices() const;
 
-            std::shared_ptr<CompositePolygon> getPolygon();
+            [[nodiscard]] std::shared_ptr<Polygon> getPolygon() const;
     };
 }

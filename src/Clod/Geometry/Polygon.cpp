@@ -2,7 +2,10 @@
 #include <any>
 #include <cmath>
 #include <Clod/Geometry/Polygon.hpp>
-#include "Clod/Geometry/Position.hpp"
+#include <Clod/Geometry/Position.hpp>
+#include <CDT.h>
+
+#include <Clod/Geometry/Polycomplex.hpp>
 
 namespace Clod
 {
@@ -399,5 +402,45 @@ namespace Clod
         }
 
         return centroid / static_cast<float>(this->vertices.size());
+    }
+
+    std::shared_ptr<Polycomplex> Polygon::triangulate() const
+    {
+        std::vector<Polygon> polygons;
+        CDT::Triangulation<float> cdt;
+        std::vector<CDT::V2d<float>> cdtVertices;
+        std::vector<CDT::Edge> edges;
+
+        for (auto index = 0; index < this->vertices.size(); ++index)
+        {
+            const auto vertex = this->vertices[index];
+
+            cdtVertices.push_back({vertex.x, vertex.y});
+
+            CDT::Edge edge(index, (index + 1) % vertices.size());
+
+            edges.push_back(edge);
+        }
+
+        cdt.insertVertices(cdtVertices);
+        cdt.insertEdges(edges);
+        cdt.eraseOuterTriangles();
+
+        auto cdtTriangles = cdt.triangles;
+
+        for (const auto &cdtTriangle: cdt.triangles)
+        {
+            auto a = cdt.vertices[cdtTriangle.vertices[0]];
+            auto b = cdt.vertices[cdtTriangle.vertices[1]];
+            auto c = cdt.vertices[cdtTriangle.vertices[2]];
+
+            polygons.push_back(Polygon({
+                                           Vertex(a.x, a.y),
+                                           Vertex(b.x, b.y),
+                                           Vertex(c.x, c.y)
+                                       }));
+        }
+
+        return std::make_shared<Polycomplex>(polygons, this->vertices);
     }
 }
