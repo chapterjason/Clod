@@ -90,34 +90,13 @@ namespace Clod
 
     int ConcaveHull::findBestIndexForInsertion(const Vertex &vertexToInsert) const
     {
-        auto longestDistanceIndex = -1;
-        auto longestDistance = 0.0f;
-
-        for (auto index = 0; index < this->vertices.size(); ++index)
-        {
-            const auto distance = vertexToInsert.distance(this->vertices[index]);
-
-            if (distance > longestDistance)
-            {
-                longestDistance = distance;
-                longestDistanceIndex = index;
-            }
-        }
-
-        auto vertices = this->vertices;
-
-        // Rotate the vertices so that the longest distance is at the beginning
-        std::ranges::rotate(vertices, vertices.begin() + longestDistanceIndex);
-
-        // find best edge with lowest disruption in distance and angle
-        // distance is weighted more than angle
         auto bestEdgeIndex = -1;
         auto minDisruption = std::numeric_limits<float>::max();
 
-        for (auto index = 0; index < vertices.size(); ++index)
+        for (auto index = 0; index < this->vertices.size(); ++index)
         {
-            auto currentVertex = vertices[index];
-            auto nextVertex = vertices[(index + 1) % vertices.size()];
+            auto currentVertex = this->vertices[index];
+            auto nextVertex = this->vertices[(index + 1) % this->vertices.size()];
             auto edge = Edge(currentVertex, nextVertex);
 
             const auto disruption = edge.disruption(vertexToInsert);
@@ -194,6 +173,8 @@ namespace Clod
         simplifySection(this->vertices, 0, static_cast<int>(this->vertices.size()) - 1, tolerance, simplifiedVertices);
 
         this->vertices = simplifiedVertices;
+
+        // As the last two vertices are always added, we can simplify them by creating a cluster and replace them with the centroid
 
         this->simplifyCluster(clusterTolerance);
     }
