@@ -77,19 +77,38 @@ namespace Clod
             throw std::runtime_error("Polygon does not contain the edge");
         }
 
-        const auto vertexA = edge.a;
-        const auto vertexB = edge.b;
-        const auto vertexAPosition = this->getVertexIndex(vertexA);
-        const auto vertexBPosition = this->getVertexIndex(vertexB);
+        auto vertexA = edge.a;
+        auto vertexB = edge.b;
+        auto vertexAPosition = this->getVertexIndex(vertexA);
+        auto vertexBPosition = this->getVertexIndex(vertexB);
 
+        // Check if vertices are adjacent, and if not, adjust based on their positions
+        if (std::abs(vertexAPosition - vertexBPosition) != 1)
+        {
+            // If the edge vertices are not adjacent due to being in reverse order,
+            if (vertexAPosition > vertexBPosition)
+            {
+                std::swap(vertexA, vertexB);
+                std::swap(vertexAPosition, vertexBPosition);
+            }
+            // Additional handling can be implemented here if needed
+        }
+
+        // Determine the correct position for the new vertex
+        auto insertPosition = 0;
+
+        // Ensure we insert the vertex in a position that maintains the polygon's integrity
         if (vertexAPosition < vertexBPosition)
         {
-            this->vertices.insert(this->vertices.begin() + vertexAPosition, vertex);
+            insertPosition = vertexBPosition; // Insert before vertexB if vertexA comes first
         }
         else
         {
-            this->vertices.insert(this->vertices.begin() + vertexBPosition, vertex);
+            insertPosition = vertexAPosition + 1; // Insert after vertexA if vertexB comes first
         }
+
+        // Insert the new vertex at the determined position
+        this->vertices.insert(this->vertices.begin() + insertPosition, vertex);
     }
 
     bool Polygon::operator==(const Polygon &other) const
