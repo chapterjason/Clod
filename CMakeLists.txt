@@ -26,6 +26,8 @@ CPMAddPackage(
         GIT_REPOSITORY "git@github.com:SFML/SFML.git"
         GIT_TAG "master"
         OPTIONS
+            "SFML_BUILD_EXAMPLES false"
+            "SFML_BUILD_DOC false"
             "BUILD_SHARED_LIBS false"
 )
 

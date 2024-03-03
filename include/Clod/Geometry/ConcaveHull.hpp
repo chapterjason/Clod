@@ -25,11 +25,11 @@ namespace Clod
         void simplifyConsecutiveVertices(const float &tolerance = 2.f);
 
         protected:
-            std::vector<Vertex> vertices;
-
             [[nodiscard]] int findBestIndexForInsertion(const Vertex &vertexToInsert) const;
 
         public:
+            std::vector<Vertex> vertices;
+
             explicit ConcaveHull(const std::shared_ptr<sf::Image> &image, const int &alphaTolerance = 5);
 
             explicit ConcaveHull(const std::vector<Vertex> &vertices);
