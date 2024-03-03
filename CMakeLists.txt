@@ -3,27 +3,51 @@ project(Clod VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include(FetchContent)
+# Add CPM module
+set(CPM_DOWNLOAD_VERSION 0.38.7)
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
 
-FetchContent_Declare(SFML
-        GIT_REPOSITORY git@github.com:SFML/SFML.git
-        GIT_TAG master)
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
 
-FetchContent_Declare(Box2D
-        GIT_REPOSITORY git@github.com:erincatto/box2d.git
-        GIT_TAG v2.4.1)
+include(${CPM_DOWNLOAD_LOCATION})
 
-FetchContent_Declare(CDT
-        GIT_REPOSITORY git@github.com:artem-ogre/CDT.git
-        GIT_TAG master)
+# Dependencies
+CPMAddPackage(
+        NAME Ccache.cmake
+        GIT_REPOSITORY git@github.com:TheLartians/Ccache.cmake.git
+        GIT_TAG master
+)
 
-FetchContent_MakeAvailable(CDT)
-set(CDT_USE_AS_COMPILED_LIBRARY true)
-add_subdirectory(${cdt_SOURCE_DIR}/CDT ${cdt_BINARY_DIR})
+CPMAddPackage(
+        NAME SFML
+        GIT_REPOSITORY "git@github.com:SFML/SFML.git"
+        GIT_TAG "master"
+        OPTIONS
+            "BUILD_SHARED_LIBS false"
+)
 
-set(BUILD_SHARED_LIBS false)
-FetchContent_MakeAvailable(SFML)
-FetchContent_MakeAvailable(Box2D)
+CPMAddPackage(
+        NAME Box2D
+        GIT_REPOSITORY "git@github.com:erincatto/box2d.git"
+        GIT_TAG "main"
+        OPTIONS
+            "BUILD_SHARED_LIBS false"
+            "BOX2D_BUILD_TESTBED false"
+            "BOX2D_BUILD_UNIT_TESTS false"
+        # BOX2D_USER_SETTINGS true #
+)
+
+CPMAddPackage(
+        NAME CDT
+        GIT_REPOSITORY "git@github.com:artem-ogre/CDT.git"
+        GIT_TAG "master"
+        SOURCE_SUBDIR CDT
+        OPTIONS
+            "CDT_USE_AS_COMPILED_LIBRARY true"
+)
 
 add_library(${PROJECT_NAME} STATIC
         include/Clod/Geometry/Bridge.hpp

@@ -48,6 +48,10 @@ namespace Clod {
         }
     }
 
+    Cluster::Cluster() {}
+
+    Cluster::Cluster(vector<Vertex> &&vertices): vector<Vertex>(vertices) {}
+
     std::vector<Cluster> Cluster::findClusters(const std::vector<Vertex> &other, const float &tolerance)
     {
         auto vertices = other;

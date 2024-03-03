@@ -175,6 +175,13 @@ namespace Clod
         this->vertices = simplifiedVertices;
 
         // As the last two vertices are always added, we can simplify them by creating a cluster and replace them with the centroid
+        const auto first = this->vertices.front();
+        const auto last = this->vertices.back();
+        const auto cluster = Cluster({first, last});
+        const auto centroid = cluster.centroid();
+
+        this->vertices.front() = centroid;
+        this->vertices.pop_back();
 
         this->simplifyCluster(clusterTolerance);
     }
