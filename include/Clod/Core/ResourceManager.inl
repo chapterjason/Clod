@@ -109,4 +109,10 @@ namespace Clod
     {
         this->resources.erase(name);
     }
+
+    template<typename T>
+    std::shared_ptr<T> ResourceManager<T>::load(const std::string &name, const std::string &filePath)
+    {
+        return this->load(name, Path(filePath, File));
+    }
 }
