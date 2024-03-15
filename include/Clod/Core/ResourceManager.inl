@@ -30,6 +30,12 @@ namespace Clod
     }
 
     template<typename T>
+    void ResourceManager<T>::setMapping(const std::string &name, const std::string &filePath)
+    {
+        this->setMapping(name, Path(filePath, File));
+    }
+
+    template<typename T>
     bool ResourceManager<T>::hasMapping(const std::string &name) const
     {
         return fileMapping.contains(name);
