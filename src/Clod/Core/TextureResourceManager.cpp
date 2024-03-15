@@ -2,34 +2,63 @@
 
 namespace Clod
 {
-    std::shared_ptr<sf::Texture> TextureResourceManager::load(const std::string &name, const std::filesystem::path &filePath)
+    TextureResourceManager::TextureResourceManager(const std::shared_ptr<ImageResourceManager> &imageManager): imageManager(imageManager)
+    {}
+
+    std::shared_ptr<sf::Texture> TextureResourceManager::load(const std::string &name, const Path &path)
     {
         auto texture = std::make_shared<sf::Texture>();
 
-        if (!texture->loadFromFile(filePath))
+        if (!texture->loadFromFile(std::filesystem::path(path)))
         {
-            throw std::runtime_error("Failed to load texture: " + name + " from file: " + filePath.string());
+            throw std::runtime_error("Failed to load texture: " + name + " from file: " + path.string());
         }
 
-        this->setMapping(name, filePath);
+        this->setMapping(name, path);
+        this->set(name, texture);
+
+        return texture;
+    }
+
+    std::shared_ptr<sf::Texture> TextureResourceManager::load(const std::string &name, const void *data, const std::size_t size)
+    {
+        auto texture = std::make_shared<sf::Texture>();
+
+        if (!texture->loadFromMemory(data, size))
+        {
+            throw std::runtime_error("Failed to load texture: " + name + " from memory");
+        }
+
         this->set(name, texture);
 
         return texture;
     }
 
     std::shared_ptr<sf::Texture> TextureResourceManager::loadFromImage(const std::string &name,
+        const std::string &imageName)
+    {
+        const auto soundBuffer = imageManager->get(imageName);
+
+        return this->loadFromImage(name, soundBuffer);
+    }
+
+    std::shared_ptr<sf::Texture> TextureResourceManager::loadFromImage(const std::string &name,
                                                                        const std::shared_ptr<sf::Image> &image)
     {
-        if (this->has(name))
+        const auto imageName = name + "_texture_image";
+
+        if(!this->imageManager->has(imageName))
         {
-            throw std::runtime_error("Texture: " + name + " already exists");
+            this->imageManager->set(imageName, image);
         }
 
-        auto texture = std::make_shared<sf::Texture>();
+        // @todo Getting the image from the imageManager or using the one passed as argument?
+
+        const auto texture = std::make_shared<sf::Texture>();
 
         if (!texture->loadFromImage(*image))
         {
-            throw std::runtime_error("Failed to load texture: " + name + " from image");
+            throw std::runtime_error("Failed to load texture: " + name + " from image: " + imageName);
         }
 
         this->set(name, texture);

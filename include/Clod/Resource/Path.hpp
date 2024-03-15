@@ -33,23 +33,23 @@ namespace Clod
 
             Path(const char *path, const PathType &type);
 
-            bool isDirectory() const;
+            [[nodiscard]] bool isDirectory() const;
 
-            bool isFile() const;
+            [[nodiscard]] bool isFile() const;
 
-            Path join(const Path &path) const;
+            [[nodiscard]] Path join(const Path &path) const;
 
-            Path file(const Path &path) const;
+            [[nodiscard]] Path file(const Path &path) const;
 
-            Path file(const std::string &filename) const;
+            [[nodiscard]] Path file(const std::string &filename) const;
 
-            Path directory(const std::string &directoryName) const;
+            [[nodiscard]] Path directory(const std::string &directoryName) const;
 
-            Path join(const std::string &path, const PathType &type) const;
+            [[nodiscard]] Path join(const std::string &path, const PathType &type) const;
 
-            Path join(const char *path, const PathType &type) const;
+            [[nodiscard]] Path join(const char *path, const PathType &type) const;
 
-            bool isRoot() const;
+            [[nodiscard]] bool isRoot() const;
 
             [[nodiscard]] Path trim() const;
 
@@ -63,7 +63,7 @@ namespace Clod
 
             [[nodiscard]] std::string getExtension() const;
 
-            std::string string() const;
+            [[nodiscard]] std::string string() const;
 
             [[nodiscard]] Path getDirectory() const;
 
@@ -73,8 +73,8 @@ namespace Clod
             bool operator==(const Path &path) const;
 
             // CAST
-            operator std::filesystem::path() const;
+            explicit operator std::filesystem::path() const;
 
-            operator std::string() const;
+            explicit operator std::string() const;
     };
 }

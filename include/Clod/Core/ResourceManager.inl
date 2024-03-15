@@ -14,14 +14,19 @@ namespace Clod
     template<typename T>
     ResourceManager<T>::ResourceManager()
     {
-        this->fileMapping = std::map<std::string, std::filesystem::path>();
+        this->fileMapping = std::map<std::string, Path>();
         this->resources = std::map<std::string, std::shared_ptr<T>>();
     }
 
     template<typename T>
-    void ResourceManager<T>::setMapping(const std::string &name, const std::filesystem::path &filePath)
+    void ResourceManager<T>::setMapping(const std::string &name, const Path &path)
     {
-        this->fileMapping[name] = filePath;
+        if (path.isDirectory())
+        {
+            throw std::runtime_error("Path is a directory: " + path.string());
+        }
+
+        this->fileMapping[name] = path;
     }
 
     template<typename T>
@@ -31,7 +36,7 @@ namespace Clod
     }
 
     template<typename T>
-    std::filesystem::path ResourceManager<T>::getFileName(const std::string &name)
+    Path ResourceManager<T>::getPath(const std::string &name)
     {
         return fileMapping[name];
     }
@@ -49,9 +54,9 @@ namespace Clod
         {
             if (this->hasMapping(name))
             {
-                const auto fileName = this->getFileName(name);
+                const auto path = this->getPath(name);
 
-                return this->load(name, fileName);
+                return this->load(name, path);
             }
 
             throw std::runtime_error("Resource not found: " + name);

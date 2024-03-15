@@ -1,17 +1,18 @@
 #pragma once
 
-#include <filesystem>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "Clod/Resource/Path.hpp"
 
 namespace Clod
 {
     template<typename T>
     class ResourceManager
     {
-        std::map<std::string, std::filesystem::path> fileMapping;
+        std::map<std::string, Path> fileMapping;
         std::map<std::string, std::shared_ptr<T>> resources;
 
         public:
@@ -19,23 +20,27 @@ namespace Clod
 
             ResourceManager();
 
-            void setMapping(const std::string &name, const std::filesystem::path &filePath);
+            /// Mapping
+            void setMapping(const std::string &name, const Path &path);
 
             [[nodiscard]] bool hasMapping(const std::string &name) const;
 
-            std::filesystem::path getFileName(const std::string &name);
+            Path getPath(const std::string &name);
 
+            std::vector<std::string> getNames();
+
+            /// Accessors
             bool has(const std::string &name);
 
             std::shared_ptr<T> get(const std::string &name);
-
-            std::vector<std::string> getNames();
 
             void set(const std::string &name, std::shared_ptr<T> resource);
 
             void remove(const std::string &name);
 
-            virtual std::shared_ptr<T> load(const std::string &name, const std::filesystem::path &filePath) = 0;
+            virtual std::shared_ptr<T> load(const std::string &name, const Path &path) = 0;
+
+            virtual std::shared_ptr<T> load(const std::string &name, const void* data, std::size_t size) = 0;
     };
 }
 
