@@ -42,7 +42,7 @@ namespace Clod
 
             virtual std::shared_ptr<T> load(const std::string &name, const Path &path) = 0;
 
-            std::shared_ptr<T> load(const std::string &name, const std::string &filePath);
+            virtual std::shared_ptr<T> load(const std::string &name, const std::string &filePath);
 
             virtual std::shared_ptr<T> load(const std::string &name, const void* data, std::size_t size) = 0;
     };
