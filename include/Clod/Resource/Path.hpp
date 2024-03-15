@@ -72,6 +72,17 @@ namespace Clod
             // COMPARE
             bool operator==(const Path &path) const;
 
+            bool operator!=(const Path &path) const;
+
+            // SORT COMPARE
+            bool operator<(const Path &path) const;
+
+            bool operator>(const Path &path) const;
+
+            bool operator<=(const Path &path) const;
+
+            bool operator>=(const Path &path) const;
+
             // CAST
             explicit operator std::filesystem::path() const;
 

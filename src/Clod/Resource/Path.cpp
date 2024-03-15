@@ -297,13 +297,38 @@ namespace Clod
         return this->items == path.items;
     }
 
+    bool Path::operator!=(const Path &path) const
+    {
+        return this->items != path.items;
+    }
+
+    bool Path::operator<(const Path &path) const
+    {
+        return this->string() < path.string();
+    }
+
+    bool Path::operator>(const Path &path) const
+    {
+        return this->string() > path.string();
+    }
+
+    bool Path::operator<=(const Path &path) const
+    {
+        return this->string() <= path.string();
+    }
+
+    bool Path::operator>=(const Path &path) const
+    {
+        return this->string() >= path.string();
+    }
+
     Path::operator std::filesystem::path() const
     {
-        return std::filesystem::path(string());
+        return {this->string()};
     }
 
     Path::operator std::string() const
     {
-        return string();
+        return this->string();
     }
 }
