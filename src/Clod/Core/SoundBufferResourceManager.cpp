@@ -31,4 +31,10 @@ namespace Clod
 
         return soundBuffer;
     }
+
+    std::shared_ptr<sf::SoundBuffer> SoundBufferResourceManager::load(const std::string &name,
+        const std::string &filePath)
+    {
+        return ResourceManager<sf::SoundBuffer>::load(name, filePath);
+    }
 }

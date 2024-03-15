@@ -30,4 +30,9 @@ namespace Clod
 
         return font;
     }
+
+    std::shared_ptr<sf::Font> FontResourceManager::load(const std::string &name, const std::string &filePath)
+    {
+        return ResourceManager<sf::Font>::load(name, filePath);
+    }
 }

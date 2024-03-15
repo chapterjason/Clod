@@ -26,5 +26,7 @@ namespace Clod
             std::shared_ptr<sf::Texture> subTexture(const std::string &name,
                                                     const std::string &reference,
                                                     const sf::IntRect &crop);
+
+            std::shared_ptr<sf::Texture> load(const std::string &name, const std::string &filePath) override;
     };
 }

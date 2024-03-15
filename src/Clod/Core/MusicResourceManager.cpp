@@ -30,4 +30,9 @@ namespace Clod
 
         return music;
     }
+
+    std::shared_ptr<sf::Music> MusicResourceManager::load(const std::string &name, const std::string &filePath)
+    {
+        return ResourceManager<sf::Music>::load(name, filePath);
+    }
 }

@@ -61,4 +61,9 @@ namespace Clod
 
         return sound;
     }
+
+    std::shared_ptr<sf::Sound> SoundResourceManager::load(const std::string &name, const std::string &filePath)
+    {
+        return ResourceManager<sf::Sound>::load(name, filePath);
+    }
 }

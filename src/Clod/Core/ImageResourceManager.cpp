@@ -30,4 +30,9 @@ namespace Clod
 
         return image;
     }
+
+    std::shared_ptr<sf::Image> ImageResourceManager::load(const std::string &name, const std::string &filePath)
+    {
+        return ResourceManager<sf::Image>::load(name, filePath);
+    }
 }

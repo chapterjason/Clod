@@ -89,4 +89,9 @@ namespace Clod
 
         return subTexture;
     }
+
+    std::shared_ptr<sf::Texture> TextureResourceManager::load(const std::string &name, const std::string &filePath)
+    {
+        return ResourceManager<sf::Texture>::load(name, filePath);
+    }
 }

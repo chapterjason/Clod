@@ -24,5 +24,7 @@ namespace Clod
             std::shared_ptr<sf::Sprite> loadFromTexture(const std::string &name, const std::string &textureName);
 
             std::shared_ptr<sf::Sprite> loadFromTexture(const std::string &name, const std::shared_ptr<sf::Texture> &texture);
+
+            std::shared_ptr<sf::Sprite> load(const std::string &name, const std::string &filePath) override;
     };
 }

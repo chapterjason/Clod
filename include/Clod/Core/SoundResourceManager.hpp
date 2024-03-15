@@ -22,5 +22,7 @@ namespace Clod
 
             std::shared_ptr<sf::Sound> loadFromSoundBuffer(const std::string &name,
                                                            const std::shared_ptr<sf::SoundBuffer> &soundBuffer);
+
+            std::shared_ptr<sf::Sound> load(const std::string &name, const std::string &filePath) override;
     };
 }

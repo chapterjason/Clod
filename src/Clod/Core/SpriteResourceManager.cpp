@@ -96,4 +96,9 @@ namespace Clod
 
         return sprite;
     }
+
+    std::shared_ptr<sf::Sprite> SpriteResourceManager::load(const std::string &name, const std::string &filePath)
+    {
+        return ResourceManager<sf::Sprite>::load(name, filePath);
+    }
 }
