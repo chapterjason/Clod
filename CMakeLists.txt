@@ -99,6 +99,7 @@ add_library(${PROJECT_NAME} STATIC
         include/Clod/Resource/PathType.hpp
         include/Clod/Resource/Path.hpp
         src/Clod/Resource/Path.cpp
+        include/Clod/Resource.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/include")
